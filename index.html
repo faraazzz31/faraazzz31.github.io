@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mediaqueries.css" />
+  </head>
+  <body>
+    <nav id="desktop-nav">
+      <div>
+        <ul class="nav-links">
+          <li><a href="#work">Experience</a></li>
+          <li><a href="#experience">Tech Stack</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <nav id="hamburger-nav">
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="menu-links">
+          <li><a href="#work" onclick="toggleMenu()">Experience</a></li>
+          <li><a href="#experience" onclick="toggleMenu()">Tech Stack</a></li>
+          <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
+          <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+        </div>
+      </div>
+    </nav>
+    <section id="profile">
+      <div class="section__pic-container">
+        <img src="./assets/faraaz.png"/>
+      </div>
+      <div class="section__text">
+        <p class="section__text__p2">Hello, I'm</p>
+        <h2 class="title">Faraaz Ahmed</h2>
+        <p class="section__text__p2">I'm a third-year Computer Science and Statistics student at the University of Toronto</p>
+        <div class="btn-container">
+          <button
+            class="btn btn-color-2"
+            onclick="window.open('./assets/Resume_Faraaz_Ahmed.pdf')"
+          >
+            Download CV
+          </button>
+          <button class="btn btn-color-1" onclick="location.href='./#contact'">
+            Contact Info
+          </button>
+        </div>
+        <div id="socials-container">
+          <img
+            src="./assets/linkedin.png"
+            alt="My LinkedIn profile"
+            class="icon"
+            onclick="location.href='https://www.linkedin.com/in/faraaz-ahmed-b470221b4/'"
+          />
+          <img
+            src="./assets/github.png"
+            alt="My Github profile"
+            class="icon"
+            onclick="location.href='https://github.com/faraazzz31'"
+          />
+        </div>
+      </div>
+    </section>
+    <section id="work">
+      <h1 class="title">Experience</h1>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">September 2023</div>
+          <div class="timeline-content">
+            <h3>Data Quality Specialist</h3>
+            <h4>Cohere</h4>
+            <p>- Ranking and analyzing machine learning data to identify errors and inaccuracies.</p>
+            <p>- Generating and optimizing data to improve the performance of LLMs.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">December 2023 - Present</div>
+          <div class="timeline-content">
+            <h3>Senior Data Quality Specialist</h3>
+            <h4>Cohere</h4>
+            <p>- Specializing in code review of LLM data.</p>
+            <p>- Q/A and testing LLM code outputs in Python, Java, HTML/CSS, C and SQL.</p>
+          </div>
+        </div>
+      </div>
+
+    <img
+        src="./assets/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#experience'"
+      />
+    </section>
+      <section id="experience">
+        <p class="section__text__p1">Explore My</p>
+        <h1 class="title">Tech Stack</h1>
+        <div class="experience-details-container">
+          <div class="about-containers">
+            <div class="details-container">
+              <h2 class="experience-sub-title">Programming Languages</h2>
+              <div class="article-container">
+                <article>
+                  <div>
+                    <h3>Python</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Java</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>C</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Bash/Shell</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>JavaScript</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>R</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>TypeScript</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>SQL</h3>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <div class="details-container">
+              <h2 class="experience-sub-title">Frameworks & Libraries</h2>
+              <div class="article-container">
+                <article>
+                  <div>
+                    <h3>React</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Next.js</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Tailwind CSS</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Pandas</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>NumPy</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Matplotlib</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Seaborn</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Ggplot2</h3>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <div class="details-container">
+              <h2 class="experience-sub-title">Tools & Platforms</h2>
+              <div class="article-container">
+                <article>
+                  <div>
+                    <h3>Git</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Docker</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Node.js</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Prisma</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Jira</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Figma</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>REST APIs</h3>
+                  </div>
+                </article>
+                <article>
+                  <div>
+                    <h3>Unix</h3>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img src="./assets/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#projects'" />
+      </section>
+    <section id="projects">
+      <p class="section__text__p1">My Recent</p>
+      <h1 class="title">Projects</h1>
+      <div class="experience-details-container">
+        <div class="about-containers">
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img src="./assets/project-1.png" class="project-img" />
+            </div>
+            <h2 class="experience-sub-title project-title">Meal Master</h2>
+            <p class="section__text__p1">A Java-based meal planning app using SOLID principles and Clean Architecture.
+              It integrates with the Edamam API to generate recipes based on dietary restrictions and preferences,
+              supports weekly meal scheduling, compiles grocery lists, tracks calories, and includes social
+              features for sharing recipes.</p>
+            <div class="btn-container">
+              <button class="btn btn-color-2 project-btn" onclick="location.href='https://github.com/faraazzz31/Meal-Master'">
+                Github
+              </button>
+            </div>
+          </div>
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img src="./assets/project-2.png" class="project-img" />
+            </div>
+            <h2 class="experience-sub-title project-title">Movie Match</h2>
+            <p class="section__text__p1">A Python software that uses community-sourced movie reviews and graph
+              algorithms with cosine similarity to provide personalized movie recommendations based on users'
+              viewing history.</p>
+            <div class="btn-container">
+              <button class="btn btn-color-2 project-btn" onclick="location.href='https://github.com/faraazzz31/Movie-Match'">
+                Github
+              </button>
+            </div>
+          </div>
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img src="./assets/project-3.png" class="project-img" />
+            </div>
+            <h2 class="experience-sub-title project-title">UofT ASA DataFest 2024</h2>
+            <p class="section__text__p1">3rd place in data hackathon analyzing student engagement with CourseKata materials.
+               Utilized Python (pandas, matplotlib) and R for statistical analysis, advanced visualizations,
+              and modeling to deliver actionable insights about the provided dataset.</p>
+            <div class="btn-container">
+              <button class="btn btn-color-2 project-btn" onclick="location.href='https://www.linkedin.com/feed/update/urn:li:activity:7192002351891652608/'">
+                LinkedIn Post
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="./assets/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#contact'" />
+    </section>
+    <section id="contact">
+      <p class="section__text__p1">I'd Love to Get in Touch</p>
+      <h1 class="title">Contact Me</h1>
+      <div class="contact-info-upper-container">
+        <div class="contact-info-container">
+          <img
+            src="./assets/email.png"
+            alt="Email icon"
+            class="icon contact-icon email-icon"
+          />
+          <p><a href="mailto:faraaz.ahmed31@@gmail.com">faraaz.ahmed31@gmail.com</a></p>
+        </div>
+        <div class="contact-info-container">
+          <img
+            src="./assets/linkedin.png"
+            alt="LinkedIn icon"
+            class="icon contact-icon"
+          />
+          <p><a href="https://www.linkedin.com/in/faraaz-ahmed-b470221b4/">LinkedIn</a></p>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <nav>
+        <div class="nav-links-container">
+          <ul class="nav-links">
+            <li><a href="#work">Experience</a></li>
+            <li><a href="#experience">Tech Stack</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+      <p>Website by Faraaz Ahmed</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
