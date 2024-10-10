@@ -490,4 +490,33 @@ footer p {
   border-radius: 0.25rem;
 }
 
+@keyframes fadeInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-top {
+  animation: fadeInTop 2s ease-in-out;
+}
+
+.fade-in-bottom {
+  animation: fadeInBottom 2s ease-in-out;
+}
 
