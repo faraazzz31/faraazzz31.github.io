@@ -5,6 +5,116 @@ import { Github, Linkedin, Mail, MenuIcon, X, ExternalLink, ChevronDown } from '
 
 import "./globals.css";
 
+const WaveParticlesBackground = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let particles = [];
+
+    // Set canvas size to match container
+    const setCanvasSize = () => {
+      const container = canvas.parentElement;
+      canvas.width = container.offsetWidth;
+      canvas.height = container.offsetHeight;
+    };
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+        this.baseY = this.y;
+        this.amplitude = Math.random() * 20 + 10;
+        this.frequency = Math.random() * 0.02 + 0.01;
+        this.phase = Math.random() * Math.PI * 2;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.phase += this.frequency;
+
+        // Wave motion
+        this.y = this.baseY + Math.sin(this.phase) * this.amplitude;
+
+        // Wrap around screen
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(147, 51, 234, ${this.size / 3})`;
+        ctx.fill();
+      }
+    }
+
+    const init = () => {
+      particles = [];
+      for (let i = 0; i < 100; i++) {
+        particles.push(new Particle());
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(147, 51, 234, ${1 - distance / 100})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    // Initial setup
+    setCanvasSize();
+    init();
+    animate();
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      setCanvasSize();
+      init();
+    });
+
+    return () => {
+      window.removeEventListener('resize', setCanvasSize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+      <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full"
+          style={{ zIndex: 0 }}
+      />
+  );
+};
+
 const TypewriterText = ({ text, delay = 100, isGradient = false }) => {
   const [displayText, setDisplayText] = useState('');
   const [isTypingDone, setIsTypingDone] = useState(false);
@@ -29,7 +139,7 @@ const TypewriterText = ({ text, delay = 100, isGradient = false }) => {
   }, [text, delay]);
 
   return (
-      <span className={`inline-block ${isGradient ? 'bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent' : ''}`}>
+      <span className={`inline-block ${isGradient ? 'bg-gradient-to-r from-purple-500 to-blue-800 bg-clip-text text-transparent' : ''}`}>
       {displayText}
         {!isTypingDone && (
             <span className="inline-block w-0.5 h-8 bg-purple-500 animate-blink ml-1" />
@@ -74,7 +184,7 @@ const Portfolio = () => {
         {/* Progress Bar */}
         <div
             className="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-blue-500 z-50 transition-all duration-300"
-            style={{ width: `${scrollProgress}%` }}
+            style={{width: `${scrollProgress}%`}}
         />
 
         {/* Navigation */}
@@ -82,7 +192,7 @@ const Portfolio = () => {
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-between items-center h-16">
             <span
-                className="text-xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent hover:scale-110 transition-transform">
+                className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-blue-800 bg-clip-text text-transparent hover:scale-110 transition-transform">
               FA
             </span>
 
@@ -95,17 +205,17 @@ const Portfolio = () => {
                   {name: 'Contact', id: 'contact'}
                 ].map((item) => (
                     <a
-                    key = {item.name}
-                  href={`#${item.id}`}
-                  className={`text-sm font-medium transition-all hover:text-purple-400 hover:scale-105 ${
-                  activeSection === item.id
-                  ? 'text-purple-400'
-                  : 'text-gray-400'
-                }`}
-                  >
-                {item.name}
-                  </a>
-                  ))}
+                        key={item.name}
+                        href={`#${item.id}`}
+                        className={`text-sm font-extrabold transition-all hover:text-purple-400 hover:scale-105 ${
+                            activeSection === item.id
+                                ? 'text-purple-400'
+                                : 'text-gray-400'
+                        }`}
+                    >
+                      {item.name}
+                    </a>
+                ))}
               </div>
 
               {/* Mobile Navigation */}
@@ -122,33 +232,41 @@ const Portfolio = () => {
               <div className="md:hidden bg-gray-800 border-t border-gray-700 animate-slideDown">
                 <div className="px-4 py-2 space-y-2">
                   {[
-                    { name: 'Experience', id: 'work' },
-                    { name: 'Tech Stack', id: 'experience' },
-                    { name: 'Projects', id: 'projects' },
-                    { name: 'Contact', id: 'contact' }
+                    {name: 'Experience', id: 'work'},
+                    {name: 'Tech Stack', id: 'experience'},
+                    {name: 'Projects', id: 'projects'},
+                    {name: 'Contact', id: 'contact'}
                   ].map((item) => (
                       <a
                           key={item.name}
                           href={`#${item.id}`}
                           onClick={() => setIsMenuOpen(false)}
                           className="block py-2 text-gray-400 hover:text-purple-400"
-                          >
-                  {item.name}
-                    </a>
-                    ))}
+                      >
+                        {item.name}
+                      </a>
+                  ))}
                 </div>
               </div>
           )}
         </nav>
 
         {/* Hero Section */}
-        <section id="profile" className="pt-32 pb-16 px-4">
-          <div className="max-w-6xl mx-auto">
+        <section id="profile" className="relative pt-32 pb-16 px-4 bg-gradient-to-b from-gray-900 to-gray-950">
+          <div className="absolute inset-0" >
+            <WaveParticlesBackground />
+          </div>
+
+          <div className="relative z-10 max-w-6xl mx-auto"> {/* Added z-10 to ensure content stays above background */}
             <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="relative group">
                 {/* Base animated glow effect */}
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur opacity-75 animate-pulse-slow transition-all duration-300 group-hover:opacity-90 group-hover:blur-xl"></div>
-                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 animate-spin-slow transition-all duration-300 group-hover:opacity-80 group-hover:-inset-3"></div>
+                <div
+                    className="absolute -inset-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur opacity-75 animate-pulse-slow transition-all duration-300 group-hover:opacity-90 group-hover:blur-xl">
+                </div>
+                <div
+                    className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 animate-spin-slow transition-all duration-300 group-hover:opacity-80 group-hover:-inset-3">
+                </div>
                 {/* Profile image container */}
                 <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden">
                   <img
@@ -158,57 +276,59 @@ const Portfolio = () => {
                   />
                 </div>
               </div>
-              <div className="text-center">
+              <div className="flex justify-center w-full md:w-auto">
                 <div className="animate-fadeIn">
-                  <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    <span className="text-2xl md:text-3xl">Hello, I'm</span> <br/>
-                    <TypewriterText
-                        text="Faraaz Ahmed"
-                        delay={50}
-                        isGradient={true}
-                    />
-                  </h1>
-                  <p className="text-gray-400 text-lg mb-6">
-                    A third-year Computer Science and Statistics student at the University of Toronto
-                  </p>
-                  <div className="flex flex-wrap justify-center gap-4 mb-6">
-                    <button
-                        onClick={() => window.open('./assets/Resume_Faraaz_Ahmed.pdf')}
-                        className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
-                    >
-                      Download CV
-                      <ExternalLink size={18} className="group-hover:rotate-45 transition-transform" />
-                    </button>
-                    <button
-                        onClick={() => document.getElementById('contact').scrollIntoView()}
-                        className="px-6 py-3 border-2 border-purple-500 text-purple-400 rounded-lg hover:bg-purple-500/10 hover:scale-105 transition-all"
-                    >
-                      Contact Me
-                    </button>
-                  </div>
-                  <div className="flex justify-center gap-4">
-                    {[
-                      { Icon: Linkedin, href: "https://www.linkedin.com/in/faraaz-ahmed-b470221b4/" },
-                      { Icon: Github, href: "https://github.com/faraazzz31" },
-                      { Icon: Mail, href: "mailto:faraaz.ahmed31@gmail.com" }
-                    ].map(({ Icon, href }, index) => (
-                        <a
-                            key={index}
-                            href={href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 text-gray-400 hover:text-purple-400 hover:scale-110 transition-all"
+                  <div className="inline-block text-left">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                      <span className="block text-2xl md:text-3xl">Hello, I'm</span>
+                      <TypewriterText
+                          text="Faraaz Ahmed"
+                          delay={50}
+                          isGradient={true}
+                      />
+                    </h1>
+                    <p className="text-gray-400 text-lg mb-6">
+                      A 3rd Year CS and Stats student at the University of Toronto
+                    </p>
+                    <div className="flex flex-wrap gap-4 mb-6">
+                      <button
+                          onClick={() => window.open('./assets/Resume_Faraaz_Ahmed.pdf')}
+                          className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
+                      >
+                        Resume
+                        <ExternalLink size={18} className="group-hover:rotate-45 transition-transform"/>
+                      </button>
+                      <button
+                          onClick={() => document.getElementById('contact').scrollIntoView()}
+                          className="px-6 py-3 border-2 border-purple-500 text-purple-400 rounded-lg hover:bg-purple-500/10 hover:scale-105 transition-all"
+                      >
+                        Contact Me
+                      </button>
+                    </div>
+                    <div className="flex gap-4">
+                      {[
+                        {Icon: Linkedin, href: "https://www.linkedin.com/in/faraaz-ahmed-b470221b4/"},
+                        {Icon: Github, href: "https://github.com/faraazzz31"},
+                        {Icon: Mail, href: "mailto:faraaz.ahmed31@gmail.com"}
+                      ].map(({Icon, href}, index) => (
+                            <a
+                                key={index}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 text-gray-400 hover:text-purple-400 hover:scale-110 transition-all"
                         >
-                          <Icon size={24} />
+                        <Icon size={24}/>
                         </a>
-                    ))}
+                        ))}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-center mt-16">
-            <ChevronDown size={32} className="text-purple-400 animate-bounce" />
+          <div className="relative z-10 flex justify-center mt-16">
+            <ChevronDown size={32} className="text-purple-400 animate-bounce"/>
           </div>
         </section>
 
@@ -243,13 +363,14 @@ const Portfolio = () => {
                     <div className="hidden md:block w-32 pt-1 text-sm text-gray-400">
                       {exp.date}
                     </div>
-                    <div className="flex-1 bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-colors">
+                    <div
+                        className="flex-1 bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-colors">
                       <h3 className="text-xl font-semibold text-gray-100">{exp.title}</h3>
                       <p className="text-purple-400 mb-4">{exp.company}</p>
                       <ul className="space-y-2">
                         {exp.points.map((point, idx) => (
                             <li key={idx} className="text-gray-400 flex items-center gap-2">
-                              <span className="h-1.5 w-1.5 rounded-full bg-purple-500" />
+                              <span className="h-1.5 w-1.5 rounded-full bg-purple-500"/>
                               {point}
                             </li>
                         ))}
@@ -282,7 +403,8 @@ const Portfolio = () => {
                   skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix']
                 }
               ].map((category, index) => (
-                  <div key={index} className="group bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
+                  <div key={index}
+                       className="group bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
                     <h3 className="text-xl font-semibold mb-4 text-purple-400">{category.title}</h3>
                     <div className="flex flex-wrap gap-2">
                       {category.skills.map((skill, idx) => (
@@ -330,14 +452,16 @@ const Portfolio = () => {
                   type: 'linkedin'
                 }
               ].map((project, index) => (
-                  <div key={index} className="group bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
+                  <div key={index}
+                       className="group bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
                     <div className="relative overflow-hidden">
                       <img
                           src={project.image}
                           alt={project.title}
                           className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div
+                          className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
                     </div>
                     <div className="p-6">
                       <h3 className="text-xl font-semibold mb-2 text-purple-400">{project.title}</h3>
@@ -350,11 +474,11 @@ const Portfolio = () => {
                       >
                         View {' '}
                         {project.type === 'github' ? (
-                            <Github size={16} className="ml-1" />
+                            <Github size={16} className="ml-1"/>
                         ) : (
-                            <Linkedin size={16} className="ml-1" />
+                            <Linkedin size={16} className="ml-1"/>
                         )}
-                        <ExternalLink size={16} className="ml-1 group-hover:rotate-45 transition-transform" />
+                        <ExternalLink size={16} className="ml-1 group-hover:rotate-45 transition-transform"/>
                       </a>
                     </div>
                   </div>
@@ -366,7 +490,7 @@ const Portfolio = () => {
         <section id="contact" className="py-16 px-4 bg-gray-900 relative overflow-hidden">
           {/* Background Animation */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 animate-pulse" />
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 animate-pulse"/>
           </div>
 
           <div className="max-w-6xl mx-auto text-center relative z-10">
@@ -380,7 +504,7 @@ const Portfolio = () => {
                   className="group p-6 bg-gray-800 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
               >
                 <div className="flex flex-col items-center gap-4">
-                  <Mail className="w-8 h-8 text-purple-400 group-hover:scale-110 transition-transform" />
+                  <Mail className="w-8 h-8 text-purple-400 group-hover:scale-110 transition-transform"/>
                   <div className="text-center">
                     <h3 className="text-lg font-semibold text-gray-100 mb-2">Email</h3>
                     <p className="text-gray-400 group-hover:text-purple-400 transition-colors">
@@ -397,7 +521,7 @@ const Portfolio = () => {
                   className="group p-6 bg-gray-800 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
               >
                 <div className="flex flex-col items-center gap-4">
-                  <Linkedin className="w-8 h-8 text-purple-400 group-hover:scale-110 transition-transform" />
+                  <Linkedin className="w-8 h-8 text-purple-400 group-hover:scale-110 transition-transform"/>
                   <div className="text-center">
                     <h3 className="text-lg font-semibold text-gray-100 mb-2">LinkedIn</h3>
                     <p className="text-gray-400 group-hover:text-purple-400 transition-colors">
@@ -443,18 +567,18 @@ const Portfolio = () => {
                 </a>
                 <span className="text-gray-600">|</span>
                 {[
-                  { name: 'Experience', id: 'work' },
-                  { name: 'Tech Stack', id: 'experience' },
-                  { name: 'Projects', id: 'projects' },
-                  { name: 'Contact', id: 'contact' }
+                  {name: 'Experience', id: 'work'},
+                  {name: 'Tech Stack', id: 'experience'},
+                  {name: 'Projects', id: 'projects'},
+                  {name: 'Contact', id: 'contact'}
                 ].map((item) => (
                     <a
                         key={item.name}
                         href={`#${item.id}`}
                         className="text-gray-400 hover:text-purple-400 transition-colors hidden md:inline"
-                  >
-                {item.name}
-                  </a>
+                    >
+                      {item.name}
+                    </a>
                 ))}
               </div>
             </div>
@@ -463,15 +587,19 @@ const Portfolio = () => {
 
         {/* Add these keyframes to your CSS */}
         <style jsx>{`
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-        
-        .animate-blink {
-          animation: blink 1s infinite;
-        }
-      `}</style>
+          @keyframes blink {
+            0%, 100% {
+              opacity: 1;
+            }
+            50% {
+              opacity: 0;
+            }
+          }
+
+          .animate-blink {
+            animation: blink 1s infinite;
+          }
+        `}</style>
       </div>
   );
 };
