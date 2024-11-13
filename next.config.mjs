@@ -4,9 +4,7 @@ const nextConfig = {
     images: {
         unoptimized: true,
     },
-    basePath: '/faraazzz31.github.io', // Must match your repository name exactly
-    assetPrefix: '/faraazzz31.github.io', // Add this line
+    // Remove basePath and assetPrefix since this is a user/organization site
 }
-
 
 export default nextConfig;

@@ -3,6 +3,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Github, Linkedin, Mail, MenuIcon, X, ExternalLink, ChevronDown } from 'lucide-react';
 
+import "./globals.css";
+
 const TypewriterText = ({ text, delay = 100, isGradient = false }) => {
   const [displayText, setDisplayText] = useState('');
   const [isTypingDone, setIsTypingDone] = useState(false);
