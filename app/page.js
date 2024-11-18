@@ -462,7 +462,7 @@ const Portfolio = () => {
                   title: 'Grade Tracker',
                   description: 'A native macOS application using SwiftUI and Swift that helps students consolidate and track assignment grades in a single platform. Built smart grade calculation features including weighted averages, target grade tracking, and predictive insights for required scores.',
                   image: './assets/grade.jpeg',
-                  link: 'https://github.com/faraazzz31/Meal-Master',
+                  link: 'https://github.com/faraazzz31/Grade-Tracker',
                   type: 'github'
                 },
                 {

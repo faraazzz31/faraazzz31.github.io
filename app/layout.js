@@ -13,8 +13,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-    title: "Faraaz Ahmed",
-    description: "Personal portfolio of Faraaz Ahmed - CS and Stats student at the University of Toronto",
+    title: "Personal portfolio of Faraaz Ahmed",
+    description: "Hi I'm Faraaz Ahmed, a third year Computer Science and Statistics student at the University of Toronto. I love building things and learning new technologies.",
     icons: {
         icon: './assets/favicon.png',
     },
