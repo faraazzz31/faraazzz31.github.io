@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState, useEffect, useRef} from 'react';
-import { Github, Linkedin, Mail, MenuIcon, X, ExternalLink, ChevronDown } from 'lucide-react';
+import { Github, Linkedin, Mail, MenuIcon, X, ExternalLink, ChevronDown, Lock } from 'lucide-react';
 
 import "./globals.css";
 
@@ -253,8 +253,8 @@ const Portfolio = () => {
 
         {/* Hero Section */}
         <section id="profile" className="relative pt-32 pb-16 px-4 bg-gradient-to-b from-gray-900 to-gray-950">
-          <div className="absolute inset-0" >
-            <WaveParticlesBackground />
+          <div className="absolute inset-0">
+            <WaveParticlesBackground/>
           </div>
 
           <div className="relative z-10 max-w-6xl mx-auto"> {/* Added z-10 to ensure content stays above background */}
@@ -311,16 +311,16 @@ const Portfolio = () => {
                         {Icon: Github, href: "https://github.com/faraazzz31"},
                         {Icon: Mail, href: "mailto:faraaz.ahmed31@gmail.com"}
                       ].map(({Icon, href}, index) => (
-                            <a
-                                key={index}
-                                href={href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-2 text-gray-400 hover:text-purple-400 hover:scale-110 transition-all"
-                        >
-                        <Icon size={24}/>
-                        </a>
-                        ))}
+                          <a
+                              key={index}
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-2 text-gray-400 hover:text-purple-400 hover:scale-110 transition-all"
+                          >
+                            <Icon size={24}/>
+                          </a>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -392,7 +392,7 @@ const Portfolio = () => {
               {[
                 {
                   title: 'Programming Languages',
-                  skills: ['Python', 'Java', 'C', 'Bash/Shell', 'JavaScript', 'R', 'TypeScript', 'SQL']
+                  skills: ['Python', 'Java', 'C', 'Bash/Shell', 'JavaScript', 'R', 'TypeScript', 'SQL', 'Swift']
                 },
                 {
                   title: 'Frameworks & Libraries',
@@ -400,7 +400,7 @@ const Portfolio = () => {
                 },
                 {
                   title: 'Tools & Platforms',
-                  skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix']
+                  skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman']
                 }
               ].map((category, index) => (
                   <div key={index}
@@ -431,25 +431,46 @@ const Portfolio = () => {
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
+                  title: 'Scriptorium',
+                  description: 'A full-stack collaborative code sharing platform using TypeScript, Next.js, Prisma, and SQLite, featuring syntax highlighting, blog post sharing, and code template forking capabilities. Implemented responsive frontend with React, TypeScript, TailwindCSS and used Docker for secure, isolated deployments.',
+                  image: './assets/scriptorium.webp',
+                  type: 'inProgress'
+                },
+                {
+                  title: 'A11YMOLY',
+                  description: 'A web accessibility testing platform for 0 Barriers Foundation (nonprofit) ' +
+                      'using React, MongoDB, and Tailwind CSS that automates WCAG compliance scanning and PDF ' +
+                      'accessibility testing. Implemented detailed violation reporting and compliance scoring system.',
+                  image: './assets/wcag.png',
+                  type: 'private'
+                },
+                {
+                  title: 'UofT ASA DataFest 2024',
+                  description: 'Secured 3rd place in University of Toronto\'s ASA DataFest 2024, delivering a comprehensive student engagement analysis report for CourseKata using Python (pandas, matplotlib) and R.',
+                  image: './assets/project-3.png',
+                  link: 'https://www.linkedin.com/feed/update/urn:li:activity:7192002351891652608/',
+                  type: 'linkedin'
+                },
+                {
                   title: 'Meal Master',
-                  description: 'A Java-based meal planning app using SOLID principles and Clean Architecture.',
+                  description: 'A meal planning application in Java following SOLID principles and Clean Architecture to generate personalized recipes with features such as calorie tracking, weekly meal scheduling, and grocery list creation.',
                   image: './assets/project-1.png',
                   link: 'https://github.com/faraazzz31/Meal-Master',
                   type: 'github'
                 },
                 {
-                  title: 'Movie Match',
-                  description: 'A Python software that uses community-sourced movie reviews and graph algorithms with cosine similarity.',
-                  image: './assets/project-2.png',
-                  link: 'https://github.com/faraazzz31/Movie-Match',
+                  title: 'Grade Tracker',
+                  description: 'A native macOS application using SwiftUI and Swift that helps students consolidate and track assignment grades in a single platform. Built smart grade calculation features including weighted averages, target grade tracking, and predictive insights for required scores.',
+                  image: './assets/grade.jpeg',
+                  link: 'https://github.com/faraazzz31/Meal-Master',
                   type: 'github'
                 },
                 {
-                  title: 'UofT ASA DataFest 2024',
-                  description: '3rd place in data hackathon analyzing student engagement with CourseKata materials.',
-                  image: './assets/project-3.png',
-                  link: 'https://www.linkedin.com/feed/update/urn:li:activity:7192002351891652608/',
-                  type: 'linkedin'
+                  title: 'Movie Match',
+                  description: 'A Python software that uses community-sourced movie reviews and graph algorithms with cosine similarity. It uses MovieLens dataset with 100,000 ratings from 600 users across 9,000 movies.',
+                  image: './assets/project-2.png',
+                  link: 'https://github.com/faraazzz31/Movie-Match',
+                  type: 'github'
                 }
               ].map((project, index) => (
                   <div key={index}
@@ -463,23 +484,45 @@ const Portfolio = () => {
                       <div
                           className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold mb-2 text-purple-400">{project.title}</h3>
-                      <p className="text-gray-400 mb-4">{project.description}</p>
-                      <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center text-purple-400 hover:text-purple-300 group-hover:translate-x-2 transition-transform"
-                      >
-                        View {' '}
-                        {project.type === 'github' ? (
-                            <Github size={16} className="ml-1"/>
-                        ) : (
-                            <Linkedin size={16} className="ml-1"/>
+                    <div className="p-6 flex flex-col h-[315px]"> {/* Fixed height container */}
+                      <div className="flex-grow"> {/* This div will take up available space */}
+                        <h3 className="text-xl font-semibold mb-2 text-purple-400">{project.title}</h3>
+                        <p className="text-gray-400">{project.description}</p>
+                      </div>
+                      <div className="mt-auto pt-4"> {/* This div will stick to the bottom */}
+                        {project.type === 'github' && (
+                            <a
+                                href={project.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center text-purple-400 hover:text-purple-300 group-hover:translate-x-2 transition-transform"
+                            >
+                              View <Github size={16} className="ml-1"/>
+                              <ExternalLink size={16} className="ml-1 group-hover:rotate-45 transition-transform"/>
+                            </a>
                         )}
-                        <ExternalLink size={16} className="ml-1 group-hover:rotate-45 transition-transform"/>
-                      </a>
+                        {project.type === 'linkedin' && (
+                            <a
+                                href={project.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center text-purple-400 hover:text-purple-300 group-hover:translate-x-2 transition-transform"
+                            >
+                              View <Linkedin size={16} className="ml-1"/>
+                              <ExternalLink size={16} className="ml-1 group-hover:rotate-45 transition-transform"/>
+                            </a>
+                        )}
+                        {project.type === 'inProgress' && (
+                            <span className="inline-flex items-center text-purple-400">
+                    In Progress <Github size={16} className="ml-1"/>
+                  </span>
+                        )}
+                        {project.type === 'private' && (
+                            <span className="inline-flex items-center text-purple-400">
+                    Private Repository <Github size={16} className="ml-1"/> <Lock size={16} className="ml-1"/>
+                  </span>
+                        )}
+                      </div>
                     </div>
                   </div>
               ))}
@@ -585,7 +628,6 @@ const Portfolio = () => {
           </div>
         </footer>
 
-        {/* Add these keyframes to your CSS */}
         <style jsx>{`
           @keyframes blink {
             0%, 100% {
