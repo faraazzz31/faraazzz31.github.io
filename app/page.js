@@ -287,8 +287,8 @@ const Portfolio = () => {
                           isGradient={true}
                       />
                     </h1>
-                    <p className="text-gray-400 text-lg mb-6">
-                      A 3rd Year CS and Stats student at the University of Toronto
+                    <p className="text-gray-400 text-lg text-justify max-w-lg mb-8">
+                      A 3rd Year Computer Science and Statistics student at the University of Toronto. I love exploring new technologies and building cool things. When I'm not coding, you can find me trying out new food spots around the city, planning my next trip, or experimenting with photography.
                     </p>
                     <div className="flex flex-wrap gap-4 mb-6">
                       <button
@@ -335,9 +335,12 @@ const Portfolio = () => {
         {/* Experience Section */}
         <section id="work" className="py-16 bg-gray-800/50 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
               Experience
             </h2>
+            <p className="text-gray-400 text-center mb-12 text-lg">
+              Where I've worked and what I've done
+            </p>
             <div className="space-y-8">
               {[
                 {
@@ -350,7 +353,7 @@ const Portfolio = () => {
                   ]
                 },
                 {
-                  date: 'September 2023',
+                  date: 'September 2023 - December 2023',
                   title: 'Data Quality Specialist',
                   company: 'Cohere',
                   points: [
@@ -385,9 +388,12 @@ const Portfolio = () => {
         {/* Tech Stack Section */}
         <section id="experience" className="py-16 px-4 bg-gray-900">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
               Tech Stack
             </h2>
+            <p className="text-gray-400 text-center mb-12 text-lg">
+              Technologies I've been working with
+            </p>
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
@@ -425,9 +431,12 @@ const Portfolio = () => {
         {/* Projects Section */}
         <section id="projects" className="py-16 px-4 bg-gray-800/50">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
               Projects
             </h2>
+            <p className="text-gray-400 text-center mb-12 text-lg">
+              Some cool things I've built and worked on
+            </p>
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
