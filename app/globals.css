@@ -34,3 +34,15 @@ body {
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
 }
+
+
+.scroll-animate {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+}
+
+.animate-in {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+}
