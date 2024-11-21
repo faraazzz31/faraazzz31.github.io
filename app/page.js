@@ -152,15 +152,23 @@ const Portfolio = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('profile');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
+// Mount effect
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+// Combined scroll and animation effect
+  useEffect(() => {
+    if (!isMounted) return; // Don't run until component is mounted
+
+    // Scroll progress and active section handler
     const handleScroll = () => {
-      // Calculate scroll progress
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const currentProgress = (window.pageYOffset / totalScroll) * 100;
       setScrollProgress(currentProgress);
 
-      // Active section detection
       const sections = ['profile', 'work', 'experience', 'projects', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
@@ -175,11 +183,7 @@ const Portfolio = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
+    // Intersection Observer for animations
     const observerOptions = {
       root: null,
       rootMargin: '0px',
@@ -197,12 +201,23 @@ const Portfolio = () => {
     const observer = new IntersectionObserver(handleIntersect, observerOptions);
 
     // Observe all elements with the scroll-animate class
-    document.querySelectorAll('.scroll-animate').forEach((element) => {
+    const elements = document.querySelectorAll('.scroll-animate');
+    elements.forEach((element) => {
+      // Reset the initial state
+      element.classList.remove('animate-in');
       observer.observe(element);
     });
 
-    return () => observer.disconnect();
-  }, []);
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      elements.forEach((element) => observer.unobserve(element));
+      observer.disconnect();
+    };
+  }, [isMounted]); // Only depend on isMounted
 
 
   return (
@@ -287,7 +302,7 @@ const Portfolio = () => {
           <div
               className="relative z-10 max-w-7xl mx-auto w-full pt-16">
             <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24">
-              <div className="relative group">
+              <div className="relative group md:ml-16">
                 <div
                     className="absolute -inset-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur opacity-75 animate-pulse-slow transition-all duration-300 group-hover:opacity-90 group-hover:blur-xl">
                 </div>
