@@ -179,6 +179,32 @@ const Portfolio = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const handleIntersect = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+
+    // Observe all elements with the scroll-animate class
+    document.querySelectorAll('.scroll-animate').forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+
   return (
       <div className="bg-gray-900 min-h-screen text-gray-100">
         {/* Progress Bar */}
@@ -252,22 +278,22 @@ const Portfolio = () => {
         </nav>
 
         {/* Hero Section */}
-        <section id="profile" className="relative pt-32 pb-16 px-4 bg-gradient-to-b from-gray-900 to-gray-950">
+        <section id="profile"
+                 className="relative min-h-screen flex items-center px-4 bg-gradient-to-b from-gray-900 to-gray-950">
           <div className="absolute inset-0">
             <WaveParticlesBackground/>
           </div>
 
-          <div className="relative z-10 max-w-6xl mx-auto"> {/* Added z-10 to ensure content stays above background */}
-            <div className="flex flex-col md:flex-row items-center gap-8">
+          <div
+              className="relative z-10 max-w-7xl mx-auto w-full pt-16">
+            <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24">
               <div className="relative group">
-                {/* Base animated glow effect */}
                 <div
                     className="absolute -inset-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur opacity-75 animate-pulse-slow transition-all duration-300 group-hover:opacity-90 group-hover:blur-xl">
                 </div>
                 <div
                     className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 animate-spin-slow transition-all duration-300 group-hover:opacity-80 group-hover:-inset-3">
                 </div>
-                {/* Profile image container */}
                 <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden">
                   <img
                       src='./assets/faraaz.png'
@@ -276,21 +302,24 @@ const Portfolio = () => {
                   />
                 </div>
               </div>
-              <div className="flex justify-center w-full md:w-auto">
-                <div className="animate-fadeIn">
-                  <div className="inline-block text-left">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                      <span className="block text-2xl md:text-3xl">Hello, I'm</span>
+              <div
+                  className="flex justify-center w-full md:w-auto md:flex-1">
+                <div className="animate-fadeIn md:pl-8">
+                  <div className="text-left">
+                    <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                      <span className="block text-2xl md:text-3xl mb-4">Hello, I'm</span>
                       <TypewriterText
                           text="Faraaz Ahmed"
-                          delay={50}
+                          delay={125}
                           isGradient={true}
                       />
                     </h1>
-                    <p className="text-gray-400 text-lg text-justify max-w-lg mb-8">
-                      A 3rd Year Computer Science and Statistics student at the University of Toronto. I love exploring new technologies and building cool things. When I'm not coding, you can find me trying out new food spots around the city, planning my next trip, or experimenting with photography.
+                    <p className="text-gray-400 text-lg text-justify max-w-2xl mb-12">
+                      A 3rd Year Computer Science and Statistics student at the University of Toronto. I love exploring
+                      new technologies and building cool things. When I'm not coding, you can find me trying out new
+                      food spots around the city, planning my next trip, or experimenting with photography.
                     </p>
-                    <div className="flex flex-wrap gap-4 mb-6">
+                    <div className="flex flex-wrap gap-4 mb-8">
                       <button
                           onClick={() => window.open('./assets/Resume_Faraaz_Ahmed.pdf')}
                           className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
@@ -327,13 +356,13 @@ const Portfolio = () => {
               </div>
             </div>
           </div>
-          <div className="relative z-10 flex justify-center mt-16">
+          <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2">
             <ChevronDown size={32} className="text-purple-400 animate-bounce"/>
           </div>
         </section>
 
         {/* Experience Section */}
-        <section id="work" className="py-16 bg-gray-800/50 px-4">
+        <section id="work" className="py-16 bg-gray-800/50 px-4 scroll-animate opacity-0 translate-y-8 transition-all duration-700 ease-out">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
               Experience
@@ -344,35 +373,44 @@ const Portfolio = () => {
             <div className="space-y-8">
               {[
                 {
-                  date: 'December 2023 - Present',
+                  date: 'Dec 2023 - Present',
                   title: 'Senior Data Quality Specialist',
                   company: 'Cohere',
+                  location: 'Toronto, ON',
                   points: [
                     'Specializing in code review of LLM data',
                     'Q/A and testing LLM code outputs in Python, Java, HTML/CSS, C and SQL'
                   ]
                 },
                 {
-                  date: 'September 2023 - December 2023',
+                  date: 'Sep 2023 - Dec 2023',
                   title: 'Data Quality Specialist',
                   company: 'Cohere',
+                  location: 'Toronto, ON',
                   points: [
                     'Ranking and analyzing machine learning data to identify errors and inaccuracies',
                     'Generating and optimizing data to improve the performance of LLMs'
                   ]
                 }
               ].map((exp, index) => (
-                  <div key={index} className="flex gap-6 group hover:scale-[1.02] transition-all duration-300">
-                    <div className="hidden md:block w-32 pt-1 text-sm text-gray-400">
-                      {exp.date}
-                    </div>
-                    <div
-                        className="flex-1 bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-colors">
-                      <h3 className="text-xl font-semibold text-gray-100">{exp.title}</h3>
-                      <p className="text-purple-400 mb-4">{exp.company}</p>
-                      <ul className="space-y-2">
+                  <div
+                      key={index}
+                      className="group hover:scale-[1.02] transition-all duration-300 scroll-animate opacity-0 translate-y-8"
+                      style={{ transitionDelay: `${index * 200}ms` }}
+                  >
+                    <div className="bg-gray-800 p-8 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-colors">
+                      <div className="flex flex-col space-y-2">
+                        <h3 className="text-xl font-semibold text-gray-100">{exp.title}</h3>
+                        <div className="flex items-center gap-2">
+                          <span className="text-purple-400">{exp.company}</span>
+                          <span className="text-gray-500">•</span>
+                          <span className="text-gray-400">{exp.location}</span>
+                        </div>
+                        <span className="text-sm text-gray-400">{exp.date}</span>
+                      </div>
+                      <ul className="space-y-3 mt-4">
                         {exp.points.map((point, idx) => (
-                            <li key={idx} className="text-gray-400 flex items-center gap-2">
+                            <li key={idx} className="text-gray-300 flex items-center gap-3">
                               <span className="h-1.5 w-1.5 rounded-full bg-purple-500"/>
                               {point}
                             </li>
@@ -386,7 +424,7 @@ const Portfolio = () => {
         </section>
 
         {/* Tech Stack Section */}
-        <section id="experience" className="py-16 px-4 bg-gray-900">
+        <section id="experience" className="py-16 px-4 bg-gray-900 scroll-animate opacity-0 translate-y-8 transition-all duration-700 ease-out">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
               Tech Stack
@@ -429,7 +467,7 @@ const Portfolio = () => {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-16 px-4 bg-gray-800/50">
+        <section id="projects" className="py-16 px-4 bg-gray-800/50 scroll-animate opacity-0 translate-y-8 transition-all duration-700 ease-out">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
               Projects
@@ -493,12 +531,12 @@ const Portfolio = () => {
                       <div
                           className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
                     </div>
-                    <div className="p-6 flex flex-col h-[315px]"> {/* Fixed height container */}
-                      <div className="flex-grow"> {/* This div will take up available space */}
+                    <div className="p-6 flex flex-col h-[315px]">
+                      <div className="flex-grow">
                         <h3 className="text-xl font-semibold mb-2 text-purple-400">{project.title}</h3>
                         <p className="text-gray-400">{project.description}</p>
                       </div>
-                      <div className="mt-auto pt-4"> {/* This div will stick to the bottom */}
+                      <div className="mt-auto pt-4">
                         {project.type === 'github' && (
                             <a
                                 href={project.link}
