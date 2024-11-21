@@ -299,17 +299,14 @@ const Portfolio = () => {
             <WaveParticlesBackground/>
           </div>
 
-          <div
-              className="relative z-10 max-w-7xl mx-auto w-full pt-16">
-            <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24">
-              <div className="relative group md:ml-16">
-                <div
-                    className="absolute -inset-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur opacity-75 animate-pulse-slow transition-all duration-300 group-hover:opacity-90 group-hover:blur-xl">
+          <div className="relative z-10 max-w-7xl mx-auto w-full pt-16">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-24 min-h-[calc(100vh-4rem)]">
+              <div className="relative group md:ml-16 mt-8 md:mt-0">
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur opacity-75 animate-pulse-slow transition-all duration-300 group-hover:opacity-90 group-hover:blur-xl">
                 </div>
-                <div
-                    className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 animate-spin-slow transition-all duration-300 group-hover:opacity-80 group-hover:-inset-3">
+                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 animate-spin-slow transition-all duration-300 group-hover:opacity-80 group-hover:-inset-3">
                 </div>
-                <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden">
+                <div className="relative w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden">
                   <img
                       src='./assets/faraaz.png'
                       alt="Faraaz Ahmed"
@@ -317,34 +314,33 @@ const Portfolio = () => {
                   />
                 </div>
               </div>
-              <div
-                  className="flex justify-center w-full md:w-auto md:flex-1">
+              <div className="flex justify-center w-full md:w-auto md:flex-1">
                 <div className="animate-fadeIn md:pl-8">
                   <div className="text-left">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                      <span className="block text-2xl md:text-3xl mb-4">Hello, I'm</span>
+                    <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6">
+                      <span className="block text-xl md:text-3xl mb-2 md:mb-4">Hello, I'm</span>
                       <TypewriterText
                           text="Faraaz Ahmed"
                           delay={125}
                           isGradient={true}
                       />
                     </h1>
-                    <p className="text-gray-400 text-lg text-justify max-w-2xl mb-12">
+                    <p className="text-gray-400 text-base md:text-lg text-justify max-w-2xl mb-6 md:mb-12">
                       A 3rd Year Computer Science and Statistics student at the University of Toronto. I love exploring
                       new technologies and building cool things. When I'm not coding, you can find me trying out new
                       food spots around the city, planning my next trip, or experimenting with photography.
                     </p>
-                    <div className="flex flex-wrap gap-4 mb-8">
+                    <div className="flex flex-wrap gap-4 mb-6 md:mb-8">
                       <button
                           onClick={() => window.open('./assets/Resume_Faraaz_Ahmed.pdf')}
-                          className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
+                          className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
                       >
                         Resume
-                        <ExternalLink size={18} className="group-hover:rotate-45 transition-transform"/>
+                        <ExternalLink size={16} className="group-hover:rotate-45 transition-transform"/>
                       </button>
                       <button
                           onClick={() => document.getElementById('contact').scrollIntoView()}
-                          className="px-6 py-3 border-2 border-purple-500 text-purple-400 rounded-lg hover:bg-purple-500/10 hover:scale-105 transition-all"
+                          className="px-4 md:px-6 py-2 md:py-3 border-2 border-purple-500 text-purple-400 rounded-lg hover:bg-purple-500/10 hover:scale-105 transition-all"
                       >
                         Contact Me
                       </button>
@@ -362,7 +358,7 @@ const Portfolio = () => {
                               rel="noopener noreferrer"
                               className="p-2 text-gray-400 hover:text-purple-400 hover:scale-110 transition-all"
                           >
-                            <Icon size={24}/>
+                            <Icon size={20} className="md:w-6 md:h-6"/>
                           </a>
                       ))}
                     </div>
@@ -371,7 +367,7 @@ const Portfolio = () => {
               </div>
             </div>
           </div>
-          <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2">
+          <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
             <ChevronDown size={32} className="text-purple-400 animate-bounce"/>
           </div>
         </section>
@@ -546,12 +542,12 @@ const Portfolio = () => {
                       <div
                           className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
                     </div>
-                    <div className="p-6 flex flex-col h-[315px]">
+                    <div className="p-6 flex flex-col min-h-[315px]">
                       <div className="flex-grow">
                         <h3 className="text-xl font-semibold mb-2 text-purple-400">{project.title}</h3>
                         <p className="text-gray-400">{project.description}</p>
                       </div>
-                      <div className="mt-auto pt-4">
+                      <div className="mt-4">
                         {project.type === 'github' && (
                             <a
                                 href={project.link}
