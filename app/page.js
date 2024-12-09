@@ -390,7 +390,9 @@ const Portfolio = () => {
                   location: 'Toronto, ON',
                   points: [
                     'Specializing in code review of LLM data',
-                    'Q/A and testing LLM code outputs in Python, Java, HTML/CSS, C and SQL'
+                    'Performed quality assurance and evaluation of code generation (RLHF) across various programming languages (Python, Java, HTML/CSS, JavaScript, C, SQL, TypeScript), achieving 13.5% performance improvement while reducing operational costs by 50%',
+                    'Conducted data curation and annotation tasks for Command R/R+ (104B parameters), collaborating with teams to enhance LLM performance',
+                    'Carried comprehensive validation processes including prompt engineering, debugging, and code testing to optimize model outputs across diverse technical domains'
                   ]
                 },
                 {
@@ -399,8 +401,8 @@ const Portfolio = () => {
                   company: 'Cohere',
                   location: 'Toronto, ON',
                   points: [
-                    'Ranking and analyzing machine learning data to identify errors and inaccuracies',
-                    'Generating and optimizing data to improve the performance of LLMs'
+                    'Evaluated and ranked machine learning outputs to identify errors and optimize model responses',
+                    'Optimized datasets through annotation and quality assurance testing to improve model performance metrics'
                   ]
                 }
               ].map((exp, index) => (
@@ -455,7 +457,7 @@ const Portfolio = () => {
                 },
                 {
                   title: 'Tools & Platforms',
-                  skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman']
+                  skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'AWS Lambda', 'AWS DynamoDB']
                 }
               ].map((category, index) => (
                   <div key={index}
@@ -492,7 +494,8 @@ const Portfolio = () => {
                   title: 'Scriptorium',
                   description: 'A full-stack collaborative code sharing platform using TypeScript, Next.js, Prisma, and SQLite, featuring syntax highlighting, blog post sharing, and code template forking capabilities. Implemented responsive frontend with React, TypeScript, TailwindCSS and used Docker for secure, isolated deployments.',
                   image: './assets/scriptorium.webp',
-                  type: 'inProgress'
+                  link: 'https://github.com/faraazzz31/scriptorium',
+                  type: 'github'
                 },
                 {
                   title: 'A11YMOLY',
