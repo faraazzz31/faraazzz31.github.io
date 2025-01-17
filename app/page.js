@@ -445,7 +445,7 @@ const Portfolio = () => {
             <p className="text-gray-400 text-center mb-12 text-lg">
               Technologies I've been working with
             </p>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-4 gap-8">
               {[
                 {
                   title: 'Programming Languages',
@@ -457,7 +457,11 @@ const Portfolio = () => {
                 },
                 {
                   title: 'Tools & Platforms',
-                  skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'AWS Lambda', 'AWS DynamoDB']
+                  skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'AWS Lambda', 'AWS DynamoDB', 'PostgreSQL']
+                },
+                {
+                  title: 'Machine Learning',
+                  skills: ['PyTorch', 'Azure ML', 'Reward Model Training', 'Agentic LLM Development', 'Direct Preference Optimazation (DPO)']
                 }
               ].map((category, index) => (
                   <div key={index}
