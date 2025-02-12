@@ -385,19 +385,20 @@ const Portfolio = () => {
               {[
                 {
                   date: 'Dec 2023 - Present',
-                  title: 'Senior Data Quality Specialist',
+                  title: 'Senior AI Data Trainer',
                   company: 'Cohere',
                   location: 'Toronto, ON',
                   points: [
                     'Specializing in code review of LLM data',
                     'Performed quality assurance and evaluation of code generation (RLHF) across various programming languages (Python, Java, HTML/CSS, JavaScript, C, SQL, TypeScript), achieving 13.5% performance improvement while reducing operational costs by 50%',
                     'Conducted data curation and annotation tasks for Command R/R+ (104B parameters), collaborating with teams to enhance LLM performance',
-                    'Carried comprehensive validation processes including prompt engineering, debugging, and code testing to optimize model outputs across diverse technical domains'
+                    'Carried comprehensive validation processes including prompt engineering, debugging, and code testing to optimize model outputs across diverse technical domains',
+                    'Reviewed and audited tasks from team members, delivering feedback to maintain data accuracy and consistency'
                   ]
                 },
                 {
                   date: 'Sep 2023 - Dec 2023',
-                  title: 'Data Quality Specialist',
+                  title: 'AI Data Trainer',
                   company: 'Cohere',
                   location: 'Toronto, ON',
                   points: [
@@ -456,12 +457,12 @@ const Portfolio = () => {
                   skills: ['React', 'Next.js', 'Tailwind CSS', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Ggplot2']
                 },
                 {
-                  title: 'Tools & Platforms',
-                  skills: ['Git', 'Docker', 'Node.js', 'Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'AWS Lambda', 'AWS DynamoDB', 'PostgreSQL']
+                  title: 'Tools & Databases',
+                  skills: ['Git', 'Docker', 'Node.js', 'Express.js','Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'AWS Lambda', 'AWS DynamoDB', 'PostgreSQL']
                 },
                 {
                   title: 'Machine Learning',
-                  skills: ['PyTorch', 'Azure ML', 'Reward Model Training', 'Agentic LLM Development', 'Direct Preference Optimazation (DPO)']
+                  skills: ['PyTorch', 'Azure ML', 'Agentic LLM Development', 'Direct Preference Optimazation (DPO)', 'RLHF']
                 }
               ].map((category, index) => (
                   <div key={index}
