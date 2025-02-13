@@ -450,7 +450,7 @@ const Portfolio = () => {
               {[
                 {
                   title: 'Programming Languages',
-                  skills: ['Python', 'Java', 'C', 'Bash/Shell', 'JavaScript', 'R', 'TypeScript', 'SQL', 'Swift']
+                  skills: ['Python', 'Java', 'C', 'Bash/Shell', 'JavaScript', 'C++', 'TypeScript', 'SQL', 'C#', 'Swift', 'R']
                 },
                 {
                   title: 'Frameworks & Libraries',
@@ -458,11 +458,11 @@ const Portfolio = () => {
                 },
                 {
                   title: 'Tools & Databases',
-                  skills: ['Git', 'Docker', 'Node.js', 'Express.js','Prisma', 'Jira', 'Figma', 'REST APIs', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'AWS Lambda', 'AWS DynamoDB', 'PostgreSQL']
+                  skills: ['Git', 'Docker', 'Node.js', 'Express.js','Prisma', 'Jira', 'Figma', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'REST APIs', 'AWS Lambda', 'MySQL', 'AWS DynamoDB', 'Unity', 'PostgreSQL']
                 },
                 {
                   title: 'Machine Learning',
-                  skills: ['PyTorch', 'Azure ML', 'Agentic LLM Development', 'Direct Preference Optimazation (DPO)', 'RLHF']
+                  skills: ['PyTorch', 'Azure ML', 'Agentic LLM Development', 'Direct Preference Optimazation (DPO)', 'RLHF', 'LangGraph']
                 }
               ].map((category, index) => (
                   <div key={index}
