@@ -331,18 +331,19 @@ const Portfolio = () => {
                       food spots around the city, planning my next trip, or experimenting with photography.
                     </p>
                     <div className="flex flex-wrap gap-4 mb-6 md:mb-8">
-                      <button
-                          onClick={() => window.open('./assets/Resume_Faraaz_Ahmed.pdf')}
-                          className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
-                      >
-                        Resume
-                        <ExternalLink size={16} className="group-hover:rotate-45 transition-transform"/>
-                      </button>
+                      {/*<button*/}
+                      {/*    onClick={() => window.open('./assets/Resume_Faraaz_Ahmed.pdf')}*/}
+                      {/*    className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"*/}
+                      {/*>*/}
+                      {/*  Resume*/}
+                      {/*  <ExternalLink size={16} className="group-hover:rotate-45 transition-transform"/>*/}
+                      {/*</button>*/}
                       <button
                           onClick={() => document.getElementById('contact').scrollIntoView()}
-                          className="px-4 md:px-6 py-2 md:py-3 border-2 border-purple-500 text-purple-400 rounded-lg hover:bg-purple-500/10 hover:scale-105 transition-all"
+                          className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
                       >
                         Contact Me
+                        <ExternalLink size={16} className="group-hover:rotate-45 transition-transform"/>
                       </button>
                     </div>
                     <div className="flex gap-4">
@@ -384,8 +385,41 @@ const Portfolio = () => {
             <div className="space-y-8">
               {[
                 {
-                  date: 'Dec 2023 - Present',
-                  title: 'Senior AI Data Trainer',
+                  date: 'May 2025 - Present',
+                  title: 'Machine Learning Research Assistant',
+                  company: 'FinHub Lab, Rotman School of Management, University of Toronto',
+                  location: 'Toronto, ON',
+                  points: [
+                    'Implemented a custom Reinforcement Learning (RL) environment for Rotman’s trading simulator to train agents',
+                    'Developed a Proximal Policy Optimization (PPO) agent achieving 93% accuracy in arbitrage strategies',
+                    'Built and optimized a Deep Q-Network (DQN) agent and scalable multi-agent RL framework to model liquidity dynamics, agent interactions, and emergent behaviors such as collusion in low-liquidity markets',
+                    'Utilized PyTorch, Stable-Baselines3 (SB3), and Weights & Biases (W&B) to implement, train, tune, and benchmark RL models'
+                  ]
+                },
+                {
+                  date: 'Mar 2025 - Jun 2025',
+                  title: 'Data Engineering Research Assistant',
+                  company: 'Rotman School of Management, University of Toronto',
+                  location: 'Toronto, ON',
+                  points: [
+                    'Implemented an ETL pipeline to collect, parse, normalize, and store data from external APIs and dynamic web sources',
+                    'Leveraged asynchronous network requests (urllib + asyncio) to improve data ingestion throughput by 60%',
+                    'Automated daily data collection and processing workflows using GitHub Actions and cron jobs; managed reliable data storage using Dropbox SDK'
+                  ]
+                },
+                {
+                  date: 'May 2025 - Present',
+                  title: 'Software Developer and IT Intern',
+                  company: 'World Wide Logistics Inc',
+                  location: 'Toronto, ON',
+                  points: [
+                    'Maintained and updated all company websites using WordPress; developed and customized PHP templates, themes, and plugins to enhance functionality and user experience',
+                    'Managed IT infrastructure, including VPN, firewall, remote desktops, and Office 365 user management; improved system security and operational efficiency through proactive system management'
+                  ]
+                },
+                {
+                  date: 'Sep 2023 - Mar 2025',
+                  title: 'AI Data Trainer',
                   company: 'Cohere',
                   location: 'Toronto, ON',
                   points: [
@@ -394,16 +428,6 @@ const Portfolio = () => {
                     'Conducted data curation and annotation tasks for Command R/R+ (104B parameters), collaborating with teams to enhance LLM performance',
                     'Carried comprehensive validation processes including prompt engineering, debugging, and code testing to optimize model outputs across diverse technical domains',
                     'Reviewed and audited tasks from team members, delivering feedback to maintain data accuracy and consistency'
-                  ]
-                },
-                {
-                  date: 'Sep 2023 - Dec 2023',
-                  title: 'AI Data Trainer',
-                  company: 'Cohere',
-                  location: 'Toronto, ON',
-                  points: [
-                    'Evaluated and ranked machine learning outputs to identify errors and optimize model responses',
-                    'Optimized datasets through annotation and quality assurance testing to improve model performance metrics'
                   ]
                 }
               ].map((exp, index) => (
@@ -450,11 +474,11 @@ const Portfolio = () => {
               {[
                 {
                   title: 'Programming Languages',
-                  skills: ['Python', 'Java', 'C', 'Bash/Shell', 'JavaScript', 'C++', 'TypeScript', 'SQL', 'C#', 'Swift', 'R']
+                  skills: ['Python', 'Java', 'C', 'JavaScript', 'TypeScript', 'SQL', 'Swift', 'R', 'PHP']
                 },
                 {
                   title: 'Frameworks & Libraries',
-                  skills: ['React', 'Next.js', 'Tailwind CSS', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Ggplot2']
+                  skills: ['React', 'Next.js', 'Tailwind CSS', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Ggplot2', 'WordPress']
                 },
                 {
                   title: 'Tools & Databases',
@@ -462,7 +486,7 @@ const Portfolio = () => {
                 },
                 {
                   title: 'Machine Learning',
-                  skills: ['PyTorch', 'Azure ML', 'Agentic LLM Development', 'Direct Preference Optimazation (DPO)', 'RLHF', 'LangGraph']
+                  skills: ['PyTorch', 'Azure ML','Stable Baselines 3', 'W&B', 'LangGraph']
                 }
               ].map((category, index) => (
                   <div key={index}
