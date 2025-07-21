@@ -326,7 +326,7 @@ const Portfolio = () => {
                       />
                     </h1>
                     <p className="text-gray-400 text-base md:text-lg text-justify max-w-2xl mb-6 md:mb-12">
-                      A 3rd Year Computer Science and Statistics student at the University of Toronto. I love exploring
+                      A 4th Year Computer Science and Statistics student at the University of Toronto. I love exploring
                       new technologies and building cool things. When I'm not coding, you can find me trying out new
                       food spots around the city, planning my next trip, or experimenting with photography.
                     </p>
@@ -390,10 +390,10 @@ const Portfolio = () => {
                   company: 'FinHub Lab, Rotman School of Management, University of Toronto',
                   location: 'Toronto, ON',
                   points: [
-                    'Implemented a custom Reinforcement Learning (RL) environment for Rotman’s trading simulator to train agents',
-                    'Developed a Proximal Policy Optimization (PPO) agent achieving 93% accuracy in arbitrage strategies',
-                    'Built and optimized a Deep Q-Network (DQN) agent and scalable multi-agent RL framework to model liquidity dynamics, agent interactions, and emergent behaviors such as collusion in low-liquidity markets',
-                    'Utilized PyTorch, Stable-Baselines3 (SB3), and Weights & Biases (W&B) to implement, train, tune, and benchmark RL models'
+                    'Built a financial Reinforcement Learning environment Stable-Baselines3 (SB3) for Rotman’s trading simulator',
+                    'Developed a Proximal Policy Optimisation (PPO) agent achieving 93% accuracy in arbitrage strategies.',
+                    'Extended to a distributed multi-agent PPO training framework in Ray RLib to analyse liquidity dynamics, agent interactions, and emergent behaviours such as collusion in illiquid markets.',
+                    'Leveraged RayTune for hyperparameter optimisation and Weights & Biases for end-to-end experiment tracking'
                   ]
                 },
                 {
@@ -426,7 +426,7 @@ const Portfolio = () => {
                     'Specializing in code review of LLM data',
                     'Performed quality assurance and evaluation of code generation (RLHF) across various programming languages (Python, Java, HTML/CSS, JavaScript, C, SQL, TypeScript), achieving 13.5% performance improvement while reducing operational costs by 50%',
                     'Conducted data curation and annotation tasks for Command R/R+ (104B parameters), collaborating with teams to enhance LLM performance',
-                    'Carried comprehensive validation processes including prompt engineering, debugging, and code testing to optimize model outputs across diverse technical domains',
+                    'Collaborated with the synthetic data team on large-scale common crawl web scraping for LLM training pipelines.',
                     'Reviewed and audited tasks from team members, delivering feedback to maintain data accuracy and consistency'
                   ]
                 }
@@ -486,7 +486,7 @@ const Portfolio = () => {
                 },
                 {
                   title: 'Machine Learning',
-                  skills: ['PyTorch', 'Azure ML','Stable Baselines 3', 'W&B', 'LangGraph']
+                  skills: ['PyTorch', 'Azure ML','Stable Baselines 3', 'W&B', 'LangGraph', 'Ray']
                 }
               ].map((category, index) => (
                   <div key={index}
