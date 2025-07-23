@@ -418,8 +418,8 @@ const Portfolio = () => {
                   ]
                 },
                 {
-                  date: 'Sep 2023 - Mar 2025',
-                  title: 'AI Data Trainer',
+                  date: 'Dec 2023 - Mar 2025',
+                  title: 'Senior AI Data Trainer',
                   company: 'Cohere',
                   location: 'Toronto, ON',
                   points: [
@@ -428,6 +428,16 @@ const Portfolio = () => {
                     'Conducted data curation and annotation tasks for Command R/R+ (104B parameters), collaborating with teams to enhance LLM performance',
                     'Collaborated with the synthetic data team on large-scale common crawl web scraping for LLM training pipelines.',
                     'Reviewed and audited tasks from team members, delivering feedback to maintain data accuracy and consistency'
+                  ]
+                },
+                {
+                  date: 'Sep 2023 - Dec 2025',
+                  title: 'AI Data Trainer',
+                  company: 'Cohere',
+                  location: 'Toronto, ON',
+                  points: [
+                    'LLM data evaluation and testing',
+                    'Prompt engineering and data curation for LLM training',
                   ]
                 }
               ].map((exp, index) => (
