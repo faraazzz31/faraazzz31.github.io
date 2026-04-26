@@ -22,6 +22,9 @@ import "./globals.css";
 const SectionLabel = ({ index, title, labelId }) => (
   <div className="section-label">
     <span>{index}</span>
+    <span className="cat-walk-track" aria-hidden="true">
+      <span className="cat-walk-sprite" />
+    </span>
     <span id={labelId}>{title}</span>
   </div>
 );

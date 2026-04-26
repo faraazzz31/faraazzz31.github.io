@@ -352,6 +352,32 @@ a:focus-visible {
   color: var(--lime);
 }
 
+.cat-walk-track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 28px;
+  min-width: 96px;
+  overflow: hidden;
+  transform: translateY(4px);
+}
+
+.cat-walk-sprite {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 46px;
+  height: 26px;
+  background-image: url("/assets/cat/cat-walk.png?v=4");
+  background-repeat: no-repeat;
+  background-size: 368px 26px;
+  image-rendering: pixelated;
+  transform-origin: center;
+  animation:
+    cat-track-walk 40s linear infinite,
+    cat-frame-cycle 1150ms steps(8) infinite;
+}
+
 .intro-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 240px;
@@ -964,6 +990,45 @@ a:focus-visible {
   }
 }
 
+@keyframes cat-frame-cycle {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -368px 0;
+  }
+}
+
+@keyframes cat-track-walk {
+  0%,
+  5% {
+    left: 0;
+    transform: scaleX(1);
+  }
+
+  45% {
+    left: calc(100% - 46px);
+    transform: scaleX(1);
+  }
+
+  50%,
+  55% {
+    left: calc(100% - 46px);
+    transform: scaleX(-1);
+  }
+
+  95% {
+    left: 0;
+    transform: scaleX(-1);
+  }
+
+  100% {
+    left: 0;
+    transform: scaleX(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1228,6 +1293,10 @@ a:focus-visible {
 }
 
 @media (max-width: 360px) {
+  .cat-walk-track {
+    display: none;
+  }
+
   .personal-picks > div {
     grid-template-columns: 1fr;
   }
