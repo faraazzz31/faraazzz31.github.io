@@ -361,6 +361,18 @@ a:focus-visible {
   transform: translateY(4px);
 }
 
+.cat-walk-runner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: calc(100% - 46px);
+  height: 26px;
+  animation: cat-track-walk 40s linear infinite;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
 .cat-walk-sprite {
   position: absolute;
   bottom: 0;
@@ -371,11 +383,13 @@ a:focus-visible {
   background-image: url("/assets/cat/cat-walk.png?v=4");
   background-repeat: no-repeat;
   background-size: 368px 26px;
+  backface-visibility: hidden;
   image-rendering: pixelated;
   transform-origin: center;
   animation:
-    cat-track-walk 40s linear infinite,
-    cat-frame-cycle 1150ms steps(8) infinite;
+    cat-frame-cycle 1150ms steps(8) infinite,
+    cat-facing 40s linear infinite;
+  will-change: background-position, transform;
 }
 
 .intro-grid {
@@ -1003,28 +1017,36 @@ a:focus-visible {
 @keyframes cat-track-walk {
   0%,
   5% {
-    left: 0;
-    transform: scaleX(1);
+    transform: translate3d(0, 0, 0);
   }
 
-  45% {
-    left: calc(100% - 46px);
+  45%,
+  50%,
+  55% {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  95% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cat-facing {
+  0%,
+  49.99% {
     transform: scaleX(1);
   }
 
   50%,
-  55% {
-    left: calc(100% - 46px);
-    transform: scaleX(-1);
-  }
-
-  95% {
-    left: 0;
+  99.99% {
     transform: scaleX(-1);
   }
 
   100% {
-    left: 0;
     transform: scaleX(1);
   }
 }

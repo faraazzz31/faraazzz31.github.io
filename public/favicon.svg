@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="FA monogram">
+  <rect width="512" height="512" rx="74" fill="#151713"/>
+  <rect x="18" y="18" width="476" height="476" rx="62" fill="none" stroke="#34392c" stroke-width="10"/>
+  <text
+    x="256"
+    y="315"
+    fill="#f3f0e8"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="198"
+    font-weight="700"
+    letter-spacing="-12"
+    text-anchor="middle"
+  >FA</text>
+  <circle cx="391" cy="369" r="18" fill="#d7ff72"/>
+</svg>
