@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "serve -l tcp://127.0.0.1:3000 out",
+    "preview": "serve -l tcp://127.0.0.1:3000 out",
     "lint": "next lint",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "gh-pages": "^6.2.0",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "postcss": "^8",
+    "serve": "^14.2.4",
     "tailwindcss": "^3.4.1"
   }
 }

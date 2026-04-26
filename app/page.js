@@ -1,749 +1,377 @@
 "use client";
 
-import React, {useState, useEffect, useRef} from 'react';
-import { Github, Linkedin, Mail, MenuIcon, X, ExternalLink, ChevronDown, Lock } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ArrowUpRight,
+  Github,
+  Linkedin,
+  Mail,
+} from "lucide-react";
 
+import {
+  education,
+  experiences,
+  navItems,
+  personalPicks,
+  profile,
+  projects,
+  skills,
+} from "./portfolio-data.mjs";
 import "./globals.css";
 
-const WaveParticlesBackground = () => {
-  const canvasRef = useRef(null);
+const SectionLabel = ({ index, title, labelId }) => (
+  <div className="section-label">
+    <span>{index}</span>
+    <span id={labelId}>{title}</span>
+  </div>
+);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let particles = [];
+const sectionTitles = {
+  about: "About Me",
+  education: "Education",
+  experience: "Experience",
+  projects: "Projects",
+  skills: "Skills",
+};
 
-    // Set canvas size to match container
-    const setCanvasSize = () => {
-      const container = canvas.parentElement;
-      canvas.width = container.offsetWidth;
-      canvas.height = container.offsetHeight;
-    };
+const centeredSections = new Set(["about", "education", "skills"]);
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
-        this.baseY = this.y;
-        this.amplitude = Math.random() * 20 + 10;
-        this.frequency = Math.random() * 0.02 + 0.01;
-        this.phase = Math.random() * Math.PI * 2;
-      }
+const Section = ({ id, index, title, children, className = "" }) => (
+  <section
+    id={id}
+    className={`resume-section ${className}`.trim()}
+    aria-labelledby={`${id}-heading`}
+  >
+    <SectionLabel index={index} title={title} labelId={`${id}-heading`} />
+    {children}
+  </section>
+);
 
-      update() {
-        this.x += this.speedX;
-        this.phase += this.frequency;
-
-        // Wave motion
-        this.y = this.baseY + Math.sin(this.phase) * this.amplitude;
-
-        // Wrap around screen
-        if (this.x < 0) this.x = canvas.width;
-        if (this.x > canvas.width) this.x = 0;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(147, 51, 234, ${this.size / 3})`;
-        ctx.fill();
-      }
-    }
-
-    const init = () => {
-      particles = [];
-      for (let i = 0; i < 100; i++) {
-        particles.push(new Particle());
-      }
-    };
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach(particle => {
-        particle.update();
-        particle.draw();
-      });
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 100) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(147, 51, 234, ${1 - distance / 100})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    // Initial setup
-    setCanvasSize();
-    init();
-    animate();
-
-    // Handle resize
-    window.addEventListener('resize', () => {
-      setCanvasSize();
-      init();
-    });
-
-    return () => {
-      window.removeEventListener('resize', setCanvasSize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
+const ProjectLink = ({ project }) => {
+  const label = project.linkLabel || "GitHub";
+  const Icon = label === "LinkedIn" ? Linkedin : Github;
 
   return (
-      <canvas
-          ref={canvasRef}
-          className="absolute inset-0 w-full h-full"
-          style={{ zIndex: 0 }}
-      />
+    <a
+      className="project-action"
+      href={project.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`${project.name} on ${label}`}
+      title={label}
+    >
+      <Icon aria-hidden="true" size={18} />
+      <ArrowUpRight aria-hidden="true" className="external-arrow" size={13} />
+    </a>
   );
 };
 
-const TypewriterText = ({ text, delay = 100, isGradient = false }) => {
-  const [displayText, setDisplayText] = useState('');
-  const [isTypingDone, setIsTypingDone] = useState(false);
-  const hasTypedRef = useRef(false);
+export default function Portfolio() {
+  const [activeSection, setActiveSection] = useState(navItems[0].id);
+  const contentPanelRef = useRef(null);
 
-  useEffect(() => {
-    if (!hasTypedRef.current) {
-      let currentIndex = 0;
-      const intervalId = setInterval(() => {
-        if (currentIndex <= text.length) {
-          setDisplayText(text.slice(0, currentIndex));
-          currentIndex++;
-        } else {
-          clearInterval(intervalId);
-          setIsTypingDone(true);
-          hasTypedRef.current = true;
-        }
-      }, delay);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [text, delay]);
-
-  return (
-      <span className={`inline-block ${isGradient ? 'bg-gradient-to-r from-purple-500 to-blue-800 bg-clip-text text-transparent' : ''}`}>
-      {displayText}
-        {!isTypingDone && (
-            <span className="inline-block w-0.5 h-8 bg-purple-500 animate-blink ml-1" />
-        )}
-    </span>
+  const socialLinks = useMemo(
+    () => [
+      { label: "Email", href: `mailto:${profile.email}`, icon: Mail },
+      { label: "GitHub", href: profile.github, icon: Github },
+      { label: "LinkedIn", href: profile.linkedin, icon: Linkedin },
+    ],
+    [],
   );
-};
 
-const Portfolio = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('profile');
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
+  const activeIndex = Math.max(
+    navItems.findIndex((item) => item.id === activeSection),
+    0,
+  );
+  const activeItem = navItems[activeIndex];
+  const isCenteredSection = centeredSections.has(activeSection);
+  const activeSectionNumber = String(activeIndex + 1).padStart(2, "0");
+  const activeSectionTitle = sectionTitles[activeSection] || activeItem.label;
 
-// Mount effect
+  const handleSectionChange = (sectionId) => {
+    if (!navItems.some((item) => item.id === sectionId)) {
+      return;
+    }
+
+    setActiveSection(sectionId);
+    if (typeof window !== "undefined") {
+      const nextHash = `#${sectionId}`;
+      if (window.location.hash !== nextHash) {
+        window.history.pushState(null, "", nextHash);
+      } else {
+        contentPanelRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  };
+
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-// Combined scroll and animation effect
-  useEffect(() => {
-    if (!isMounted) return; // Don't run until component is mounted
-
-    // Scroll progress and active section handler
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const currentProgress = (window.pageYOffset / totalScroll) * 100;
-      setScrollProgress(currentProgress);
-
-      const sections = ['profile', 'work', 'experience', 'projects', 'contact'];
-      const current = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
-      });
-      if (current) {
-        setActiveSection(current);
+    const syncSectionFromHash = () => {
+      const sectionId = window.location.hash.slice(1);
+      if (navItems.some((item) => item.id === sectionId)) {
+        setActiveSection(sectionId);
+      } else if (window.location.hash) {
+        setActiveSection(navItems[0].id);
+        window.history.replaceState(null, "", `#${navItems[0].id}`);
       }
     };
 
-    // Intersection Observer for animations
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
+    syncSectionFromHash();
+    window.addEventListener("hashchange", syncSectionFromHash);
+    window.addEventListener("popstate", syncSectionFromHash);
 
-    const handleIntersect = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
-
-    // Observe all elements with the scroll-animate class
-    const elements = document.querySelectorAll('.scroll-animate');
-    elements.forEach((element) => {
-      // Reset the initial state
-      element.classList.remove('animate-in');
-      observer.observe(element);
-    });
-
-    // Add scroll event listener
-    window.addEventListener('scroll', handleScroll);
-
-    // Cleanup function
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      elements.forEach((element) => observer.unobserve(element));
-      observer.disconnect();
+      window.removeEventListener("hashchange", syncSectionFromHash);
+      window.removeEventListener("popstate", syncSectionFromHash);
     };
-  }, [isMounted]); // Only depend on isMounted
+  }, []);
 
+  useEffect(() => {
+    contentPanelRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeSection]);
 
-  return (
-      <div className="bg-gray-900 min-h-screen text-gray-100">
-        {/* Progress Bar */}
-        <div
-            className="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-blue-500 z-50 transition-all duration-300"
-            style={{width: `${scrollProgress}%`}}
-        />
-
-        {/* Navigation */}
-        <nav className="fixed w-full bg-gray-900/90 backdrop-blur-md z-40 border-b border-gray-800">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="flex justify-between items-center h-16">
-            <span
-                className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-blue-800 bg-clip-text text-transparent hover:scale-110 transition-transform">
-              FA
-            </span>
-
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex space-x-8">
-                {[
-                  {name: 'Experience', id: 'work'},
-                  {name: 'Tech Stack', id: 'experience'},
-                  {name: 'Projects', id: 'projects'},
-                  {name: 'Contact', id: 'contact'}
-                ].map((item) => (
-                    <a
-                        key={item.name}
-                        href={`#${item.id}`}
-                        className={`text-sm font-extrabold transition-all hover:text-purple-400 hover:scale-105 ${
-                            activeSection === item.id
-                                ? 'text-purple-400'
-                                : 'text-gray-400'
-                        }`}
-                    >
-                      {item.name}
-                    </a>
-                ))}
-              </div>
-
-              {/* Mobile Navigation */}
-              <div className="md:hidden">
-                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-gray-400 hover:text-purple-400">
-                  {isMenuOpen ? <X className="animate-spin-once"/> : <MenuIcon/>}
-                </button>
-              </div>
+  const renderActiveSection = () => {
+    switch (activeSection) {
+      case "education":
+        return (
+          <Section
+            id="education"
+            index={activeSectionNumber}
+            title={activeSectionTitle}
+            className="centered-section education-section"
+          >
+            <div className="education-stack">
+              {education.map((item, index) => (
+                <article className="education-row" key={item.school} style={{ "--row-index": index }}>
+                  <div>
+                    <h3>{item.school}</h3>
+                    <p>{item.degree}</p>
+                    <p className="muted">{item.detail}</p>
+                  </div>
+                  <div className="education-meta">
+                    <span>{item.dates}</span>
+                    <span>{item.location}</span>
+                  </div>
+                </article>
+              ))}
             </div>
-          </div>
+            <div className="education-note" aria-label="Academic focus">
+              <span>Academic focus</span>
+              <strong>Computer Science, Statistics, and Machine Learning</strong>
+            </div>
+          </Section>
+        );
 
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-              <div className="md:hidden bg-gray-800 border-t border-gray-700 animate-slideDown">
-                <div className="px-4 py-2 space-y-2">
-                  {[
-                    {name: 'Experience', id: 'work'},
-                    {name: 'Tech Stack', id: 'experience'},
-                    {name: 'Projects', id: 'projects'},
-                    {name: 'Contact', id: 'contact'}
-                  ].map((item) => (
+      case "experience":
+        return (
+          <Section id="experience" index={activeSectionNumber} title={activeSectionTitle}>
+            <div className="timeline-list">
+              {experiences.map((item, index) => (
+                <article
+                  className="timeline-row experience-row"
+                  key={`${item.company}-${item.role}`}
+                  style={{ "--row-index": index }}
+                >
+                  <div>
+                    <h3>{item.role}</h3>
+                    <p>{item.company}</p>
+                    <ul>
+                      {item.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="timeline-meta">
+                    <span>{item.dates}</span>
+                    <span>{item.location}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </Section>
+        );
+
+      case "projects":
+        return (
+          <Section id="projects" index={activeSectionNumber} title={activeSectionTitle}>
+            <div className="project-list">
+              {projects.map((project, index) => (
+                <article className="project-row" key={project.name} style={{ "--row-index": index }}>
+                  <div>
+                    <div className="project-heading">
+                      <span className="project-index">{String(index + 1).padStart(2, "0")}</span>
+                      <h3>{project.name}</h3>
+                    </div>
+                    <p>{project.description}</p>
+                    <span className="project-stack">{project.stack}</span>
+                  </div>
+                  {project.href && <ProjectLink project={project} />}
+                </article>
+              ))}
+            </div>
+          </Section>
+        );
+
+      case "skills":
+        return (
+          <Section
+            id="skills"
+            index={activeSectionNumber}
+            title={activeSectionTitle}
+            className="centered-section skills-section"
+          >
+            <div className="skills-grid">
+              {skills.map((group, index) => (
+                <article className="skill-group" key={group.title} style={{ "--row-index": index }}>
+                  <h3>{group.title}</h3>
+                  <p>
+                    {group.items.map((item) => (
+                      <span key={item}>{item}</span>
+                    ))}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </Section>
+        );
+
+      case "about":
+      default:
+        return (
+          <Section
+            id="about"
+            index={activeSectionNumber}
+            title={activeSectionTitle}
+            className="centered-section about-section"
+          >
+            <div className="intro-center">
+              <div>
+                <img src="/assets/profile-pic.jpg" alt="Faraaz Ahmed" className="mobile-intro-photo" />
+                <div className="about-heading-block">
+                  <h2>{profile.name}</h2>
+                  <div className="about-social-links" aria-label="Contact links">
+                    {socialLinks.map(({ label, href, icon: Icon }) => (
                       <a
-                          key={item.name}
-                          href={`#${item.id}`}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="block py-2 text-gray-400 hover:text-purple-400"
+                        key={label}
+                        href={href}
+                        target={href.startsWith("mailto:") ? undefined : "_blank"}
+                        rel={href.startsWith("mailto:") ? undefined : "noreferrer"}
                       >
-                        {item.name}
+                        <Icon aria-hidden="true" size={14} />
+                        <span>{label}</span>
                       </a>
+                    ))}
+                  </div>
+                </div>
+                <p className="intro-copy">{profile.summary}</p>
+              </div>
+              <div className="fact-strip" aria-label="Current profile details">
+                <div>
+                  <span>Focus</span>
+                  <strong>{profile.focus}</strong>
+                </div>
+                <div>
+                  <span>Based in</span>
+                  <strong>{profile.location}</strong>
+                </div>
+              </div>
+              <div className="personal-picks" aria-label="Interests">
+                <span className="personal-picks-label">Interests</span>
+                <div>
+                  {personalPicks.map((group) => (
+                    <article key={group.label}>
+                      <span>{group.label}</span>
+                      <ul>
+                        {group.items.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </article>
                   ))}
                 </div>
               </div>
-          )}
+            </div>
+          </Section>
+        );
+    }
+  };
+
+  return (
+    <main className="portfolio-shell">
+      <div className="background-grid" aria-hidden="true" />
+
+      <header className="mobile-header">
+        <nav className="mobile-tabs" aria-label="Mobile navigation">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={activeSection === item.id ? "active" : ""}
+              aria-current={activeSection === item.id ? "page" : undefined}
+              onClick={() => handleSectionChange(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
         </nav>
+      </header>
 
-        {/* Hero Section */}
-        <section id="profile"
-                 className="relative min-h-screen flex items-center px-4 bg-gradient-to-b from-gray-900 to-gray-950">
-          <div className="absolute inset-0">
-            <WaveParticlesBackground/>
-          </div>
-
-          <div className="relative z-10 max-w-7xl mx-auto w-full pt-16">
-            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-24 min-h-[calc(100vh-4rem)]">
-              <div className="relative group md:ml-16 mt-8 md:mt-0">
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur opacity-75 animate-pulse-slow transition-all duration-300 group-hover:opacity-90 group-hover:blur-xl">
-                </div>
-                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 animate-spin-slow transition-all duration-300 group-hover:opacity-80 group-hover:-inset-3">
-                </div>
-                <div className="relative w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden">
-                  <img
-                      src='./assets/faraaz.png'
-                      alt="Faraaz Ahmed"
-                      className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-center w-full md:w-auto md:flex-1">
-                <div className="animate-fadeIn md:pl-8">
-                  <div className="text-left">
-                    <h1 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6">
-                      <span className="block text-xl md:text-3xl mb-2 md:mb-4">Hello, I'm</span>
-                      <TypewriterText
-                          text="Faraaz Ahmed"
-                          delay={125}
-                          isGradient={true}
-                      />
-                    </h1>
-                    <p className="text-gray-400 text-base md:text-lg text-justify max-w-2xl mb-6 md:mb-12">
-                      A 4th Year Computer Science and Statistics student at the University of Toronto. I love exploring
-                      new technologies and building cool things. When I'm not coding, you can find me trying out new
-                      food spots around the city, planning my next trip, or experimenting with photography.
-                    </p>
-                    <div className="flex flex-wrap gap-4 mb-6 md:mb-8">
-                      {/*<button*/}
-                      {/*    onClick={() => window.open('./assets/Resume_Faraaz_Ahmed.pdf')}*/}
-                      {/*    className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"*/}
-                      {/*>*/}
-                      {/*  Resume*/}
-                      {/*  <ExternalLink size={16} className="group-hover:rotate-45 transition-transform"/>*/}
-                      {/*</button>*/}
-                      <button
-                          onClick={() => document.getElementById('contact').scrollIntoView()}
-                          className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-purple-500 to-blue-800 text-white rounded-lg hover:scale-105 transition-all flex items-center gap-2 group"
-                      >
-                        Contact Me
-                        <ExternalLink size={16} className="group-hover:rotate-45 transition-transform"/>
-                      </button>
-                    </div>
-                    <div className="flex gap-4">
-                      {[
-                        {Icon: Linkedin, href: "https://www.linkedin.com/in/faraaz-ahmed-b470221b4/"},
-                        {Icon: Github, href: "https://github.com/faraazzz31"},
-                        {Icon: Mail, href: "mailto:faraaz.ahmed31@gmail.com"}
-                      ].map(({Icon, href}, index) => (
-                          <a
-                              key={index}
-                              href={href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 text-gray-400 hover:text-purple-400 hover:scale-110 transition-all"
-                          >
-                            <Icon size={20} className="md:w-6 md:h-6"/>
-                          </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div className="resume-document">
+        <aside className="side-panel">
+          <div>
+            <button
+              className="profile-photo-link"
+              type="button"
+              aria-label="Back to about section"
+              onClick={() => handleSectionChange("about")}
+            >
+              <img src="/assets/profile-pic.jpg" alt="Faraaz Ahmed" className="profile-photo" />
+            </button>
+            <div className="identity-block">
+              <h1>{profile.name}</h1>
+              <p>{profile.role}</p>
             </div>
           </div>
-          <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
-            <ChevronDown size={32} className="text-purple-400 animate-bounce"/>
-          </div>
-        </section>
 
-        {/* Experience Section */}
-        <section id="work" className="py-16 bg-gray-800/50 px-4 scroll-animate opacity-0 translate-y-8 transition-all duration-700 ease-out">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
-              Experience
-            </h2>
-            <p className="text-gray-400 text-center mb-12 text-lg">
-              Where I've worked and what I've done
-            </p>
-            <div className="space-y-8">
-              {[
-                {
-                  date: 'May 2025 - Present',
-                  title: 'Machine Learning Research Assistant',
-                  company: 'FinHub Lab, Rotman School of Management, University of Toronto',
-                  location: 'Toronto, ON',
-                  points: [
-                    'Built a financial Reinforcement Learning environment Stable-Baselines3 (SB3) for Rotman’s trading simulator',
-                    'Developed a Proximal Policy Optimisation (PPO) agent achieving 93% accuracy in arbitrage strategies.',
-                    'Extended to a distributed multi-agent PPO training framework in Ray RLib to analyse liquidity dynamics, agent interactions, and emergent behaviours such as collusion in illiquid markets.',
-                    'Leveraged RayTune for hyperparameter optimisation and Weights & Biases for end-to-end experiment tracking'
-                  ]
-                },
-                {
-                  date: 'Mar 2025 - Jun 2025',
-                  title: 'Data Engineering Research Assistant',
-                  company: 'Rotman School of Management, University of Toronto',
-                  location: 'Toronto, ON',
-                  points: [
-                    'Implemented an ETL pipeline to collect, parse, normalize, and store data from external APIs and dynamic web sources',
-                    'Leveraged asynchronous network requests (urllib + asyncio) to improve data ingestion throughput by 60%',
-                    'Automated daily data collection and processing workflows using GitHub Actions and cron jobs; managed reliable data storage using Dropbox SDK'
-                  ]
-                },
-                {
-                  date: 'May 2025 - Present',
-                  title: 'Software Developer and IT Intern',
-                  company: 'World Wide Logistics Inc',
-                  location: 'Toronto, ON',
-                  points: [
-                    'Maintained and updated all company websites using WordPress; developed and customized PHP templates, themes, and plugins to enhance functionality and user experience',
-                    'Managed IT infrastructure, including VPN, firewall, remote desktops, and Office 365 user management; improved system security and operational efficiency through proactive system management'
-                  ]
-                },
-                {
-                  date: 'Dec 2023 - Mar 2025',
-                  title: 'Senior AI Data Trainer',
-                  company: 'Cohere',
-                  location: 'Toronto, ON',
-                  points: [
-                    'Specializing in code review of LLM data',
-                    'Performed quality assurance and evaluation of code generation (RLHF) across various programming languages (Python, Java, HTML/CSS, JavaScript, C, SQL, TypeScript), achieving 13.5% performance improvement while reducing operational costs by 50%',
-                    'Conducted data curation and annotation tasks for Command R/R+ (104B parameters), collaborating with teams to enhance LLM performance',
-                    'Collaborated with the synthetic data team on large-scale common crawl web scraping for LLM training pipelines.',
-                    'Reviewed and audited tasks from team members, delivering feedback to maintain data accuracy and consistency'
-                  ]
-                },
-                {
-                  date: 'Sep 2023 - Dec 2025',
-                  title: 'AI Data Trainer',
-                  company: 'Cohere',
-                  location: 'Toronto, ON',
-                  points: [
-                    'LLM data evaluation and testing',
-                    'Prompt engineering and data curation for LLM training',
-                  ]
-                }
-              ].map((exp, index) => (
-                  <div
-                      key={index}
-                      className="group hover:scale-[1.02] transition-all duration-300 scroll-animate opacity-0 translate-y-8"
-                      style={{ transitionDelay: `${index * 200}ms` }}
-                  >
-                    <div className="bg-gray-800 p-8 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-colors">
-                      <div className="flex flex-col space-y-2">
-                        <h3 className="text-xl font-semibold text-gray-100">{exp.title}</h3>
-                        <div className="flex items-center gap-2">
-                          <span className="text-purple-400">{exp.company}</span>
-                          <span className="text-gray-500">•</span>
-                          <span className="text-gray-400">{exp.location}</span>
-                        </div>
-                        <span className="text-sm text-gray-400">{exp.date}</span>
-                      </div>
-                      <ul className="space-y-3 mt-4">
-                        {exp.points.map((point, idx) => (
-                            <li key={idx} className="text-gray-300 flex items-center gap-3">
-                              <span className="h-1.5 w-1.5 rounded-full bg-purple-500"/>
-                              {point}
-                            </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Tech Stack Section */}
-        <section id="experience" className="py-16 px-4 bg-gray-900 scroll-animate opacity-0 translate-y-8 transition-all duration-700 ease-out">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
-              Tech Stack
-            </h2>
-            <p className="text-gray-400 text-center mb-12 text-lg">
-              Technologies I've been working with
-            </p>
-            <div className="grid md:grid-cols-4 gap-8">
-              {[
-                {
-                  title: 'Programming Languages',
-                  skills: ['Python', 'Java', 'C', 'JavaScript', 'TypeScript', 'SQL', 'Swift', 'R', 'PHP']
-                },
-                {
-                  title: 'Frameworks & Libraries',
-                  skills: ['React', 'Next.js', 'Tailwind CSS', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Ggplot2', 'WordPress']
-                },
-                {
-                  title: 'Tools & Databases',
-                  skills: ['Git', 'Docker', 'Node.js', 'Express.js','Prisma', 'Jira', 'Figma', 'Unix', 'MongoDB', 'SQLite', 'Postman', 'REST APIs', 'AWS Lambda', 'MySQL', 'AWS DynamoDB', 'Unity', 'PostgreSQL']
-                },
-                {
-                  title: 'Machine Learning',
-                  skills: ['PyTorch', 'Azure ML','Stable Baselines 3', 'W&B', 'LangGraph', 'Ray']
-                }
-              ].map((category, index) => (
-                  <div key={index}
-                       className="group bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
-                    <h3 className="text-xl font-semibold mb-4 text-purple-400">{category.title}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {category.skills.map((skill, idx) => (
-                          <span
-                              key={idx}
-                              className="px-3 py-1 bg-gray-900/50 text-gray-300 rounded-full text-sm hover:bg-purple-500/20 hover:text-purple-400 transition-colors"
-                          >
-                      {skill}
-                    </span>
-                      ))}
-                    </div>
-                  </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Projects Section */}
-        <section id="projects" className="py-16 px-4 bg-gray-800/50 scroll-animate opacity-0 translate-y-8 transition-all duration-700 ease-out">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
-              Projects
-            </h2>
-            <p className="text-gray-400 text-center mb-12 text-lg">
-              Some cool things I've built and worked on
-            </p>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: 'Scriptorium',
-                  description: 'A full-stack collaborative code sharing platform using TypeScript, Next.js, Prisma, and SQLite, featuring syntax highlighting, blog post sharing, and code template forking capabilities. Implemented responsive frontend with React, TypeScript, TailwindCSS and used Docker for secure, isolated deployments.',
-                  image: './assets/scriptorium.webp',
-                  link: 'https://github.com/faraazzz31/scriptorium',
-                  type: 'github'
-                },
-                {
-                  title: 'A11YMOLY',
-                  description: 'A web accessibility testing platform for 0 Barriers Foundation (nonprofit) ' +
-                      'using React, MongoDB, and Tailwind CSS that automates WCAG compliance scanning and PDF ' +
-                      'accessibility testing. Implemented detailed violation reporting and compliance scoring system.',
-                  image: './assets/wcag.png',
-                  type: 'private'
-                },
-                {
-                  title: 'UofT ASA DataFest 2024',
-                  description: 'Secured 3rd place in University of Toronto\'s ASA DataFest 2024, delivering a comprehensive student engagement analysis report for CourseKata using Python (pandas, matplotlib) and R.',
-                  image: './assets/project-3.png',
-                  link: 'https://www.linkedin.com/feed/update/urn:li:activity:7192002351891652608/',
-                  type: 'linkedin'
-                },
-                {
-                  title: 'Meal Master',
-                  description: 'A meal planning application in Java following SOLID principles and Clean Architecture to generate personalized recipes with features such as calorie tracking, weekly meal scheduling, and grocery list creation.',
-                  image: './assets/project-1.png',
-                  link: 'https://github.com/faraazzz31/Meal-Master',
-                  type: 'github'
-                },
-                {
-                  title: 'Grade Tracker',
-                  description: 'A native macOS application using SwiftUI and Swift that helps students consolidate and track assignment grades in a single platform. Built smart grade calculation features including weighted averages, target grade tracking, and predictive insights for required scores.',
-                  image: './assets/grade.jpeg',
-                  link: 'https://github.com/faraazzz31/Grade-Tracker',
-                  type: 'github'
-                },
-                {
-                  title: 'Movie Match',
-                  description: 'A Python software that uses community-sourced movie reviews and graph algorithms with cosine similarity. It uses MovieLens dataset with 100,000 ratings from 600 users across 9,000 movies.',
-                  image: './assets/project-2.png',
-                  link: 'https://github.com/faraazzz31/Movie-Match',
-                  type: 'github'
-                }
-              ].map((project, index) => (
-                  <div key={index}
-                       className="group bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
-                    <div className="relative overflow-hidden">
-                      <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div
-                          className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
-                    </div>
-                    <div className="p-6 flex flex-col min-h-[315px]">
-                      <div className="flex-grow">
-                        <h3 className="text-xl font-semibold mb-2 text-purple-400">{project.title}</h3>
-                        <p className="text-gray-400">{project.description}</p>
-                      </div>
-                      <div className="mt-4">
-                        {project.type === 'github' && (
-                            <a
-                                href={project.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center text-purple-400 hover:text-purple-300 group-hover:translate-x-2 transition-transform"
-                            >
-                              View <Github size={16} className="ml-1"/>
-                              <ExternalLink size={16} className="ml-1 group-hover:rotate-45 transition-transform"/>
-                            </a>
-                        )}
-                        {project.type === 'linkedin' && (
-                            <a
-                                href={project.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center text-purple-400 hover:text-purple-300 group-hover:translate-x-2 transition-transform"
-                            >
-                              View <Linkedin size={16} className="ml-1"/>
-                              <ExternalLink size={16} className="ml-1 group-hover:rotate-45 transition-transform"/>
-                            </a>
-                        )}
-                        {project.type === 'inProgress' && (
-                            <span className="inline-flex items-center text-purple-400">
-                    In Progress <Github size={16} className="ml-1"/>
-                  </span>
-                        )}
-                        {project.type === 'private' && (
-                            <span className="inline-flex items-center text-purple-400">
-                    Private Repository <Github size={16} className="ml-1"/> <Lock size={16} className="ml-1"/>
-                  </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        {/* Contact Section */}
-        <section id="contact" className="py-16 px-4 bg-gray-900 relative overflow-hidden">
-          {/* Background Animation */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 animate-pulse"/>
-          </div>
-
-          <div className="max-w-6xl mx-auto text-center relative z-10">
-            <h2 className="text-3xl font-bold mb-12 bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
-              Get in Touch
-            </h2>
-
-            <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-              <a
-                  href="mailto:faraaz.ahmed31@gmail.com"
-                  className="group p-6 bg-gray-800 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+          <nav
+            className="side-nav"
+            aria-label="Portfolio sections"
+            style={{ "--active-nav-index": activeIndex }}
+          >
+            {navItems.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                className={activeSection === item.id ? "active" : ""}
+                aria-current={activeSection === item.id ? "page" : undefined}
+                onClick={() => handleSectionChange(item.id)}
               >
-                <div className="flex flex-col items-center gap-4">
-                  <Mail className="w-8 h-8 text-purple-400 group-hover:scale-110 transition-transform"/>
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold text-gray-100 mb-2">Email</h3>
-                    <p className="text-gray-400 group-hover:text-purple-400 transition-colors">
-                      faraaz.ahmed31@gmail.com
-                    </p>
-                  </div>
-                </div>
-              </a>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
-              <a
-                  href="https://www.linkedin.com/in/faraaz-ahmed-b470221b4/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group p-6 bg-gray-800 rounded-lg border border-gray-700 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
-              >
-                <div className="flex flex-col items-center gap-4">
-                  <Linkedin className="w-8 h-8 text-purple-400 group-hover:scale-110 transition-transform"/>
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold text-gray-100 mb-2">LinkedIn</h3>
-                    <p className="text-gray-400 group-hover:text-purple-400 transition-colors">
-                      Connect with me
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
+        </aside>
 
-            <div className="mt-16 max-w-md mx-auto">
-              <p className="text-gray-400 mb-8">
-                I'm always open to new opportunities and interesting projects.
-                Feel free to reach out!
-              </p>
-              <div className="p-px bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg animate-pulse">
-                <button
-                    onClick={() => window.open('mailto:faraaz.ahmed31@gmail.com')}
-                    className="w-full px-8 py-4 bg-gray-800 rounded-lg hover:bg-gray-800/80 transition-colors"
-                >
-                  Send a Message
-                </button>
-              </div>
-            </div>
+        <div className="content-panel" ref={contentPanelRef}>
+          <div className="accent-lights" key={`lights-${activeSection}`} aria-hidden="true">
+            <span />
+            <span />
+            <span />
           </div>
-        </section>
 
-        {/* Footer */}
-        <footer className="py-8 px-4 bg-gray-800/50 border-t border-gray-700">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-center md:text-left">
-                <p className="text-gray-400">Website by Faraaz Ahmed</p>
-                <p className="text-sm text-gray-500 mt-1">© {new Date().getFullYear()} All rights reserved</p>
-              </div>
-
-              <div className="flex gap-4">
-                <a
-                    href="#profile"
-                    className="text-gray-400 hover:text-purple-400 transition-colors"
-                >
-                  Back to Top
-                </a>
-                <span className="text-gray-600">|</span>
-                {[
-                  {name: 'Experience', id: 'work'},
-                  {name: 'Tech Stack', id: 'experience'},
-                  {name: 'Projects', id: 'projects'},
-                  {name: 'Contact', id: 'contact'}
-                ].map((item) => (
-                    <a
-                        key={item.name}
-                        href={`#${item.id}`}
-                        className="text-gray-400 hover:text-purple-400 transition-colors hidden md:inline"
-                    >
-                      {item.name}
-                    </a>
-                ))}
-              </div>
-            </div>
+          <div
+            className={`tab-panel-shell ${isCenteredSection ? "centered-panel" : ""}`}
+            key={activeSection}
+          >
+            {renderActiveSection()}
           </div>
-        </footer>
-
-        <style jsx>{`
-          @keyframes blink {
-            0%, 100% {
-              opacity: 1;
-            }
-            50% {
-              opacity: 0;
-            }
-          }
-
-          .animate-blink {
-            animation: blink 1s infinite;
-          }
-        `}</style>
+        </div>
       </div>
+      <footer className="site-footer">
+        <span>Faraaz Ahmed</span>
+        <span>{new Date().getFullYear()}</span>
+      </footer>
+    </main>
   );
-};
-
-export default Portfolio;
+}
