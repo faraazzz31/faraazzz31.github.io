@@ -61,9 +61,10 @@ export const experiences = [
     location: "Burlington, ON",
     dates: "Feb 2026 - Present",
     bullets: [
-      "Architected credit-card identity linking and an ETL pipeline for transaction auditing using external SOAP APIs, Flask, Google Cloud Run, GCP CI/CD, and PostgreSQL across 13 branches.",
-      "Built a full-stack employee profile documents platform using React, Next.js, PostgreSQL, and Google Cloud Storage for 500+ users with hierarchy-based permissions.",
-      "Optimized business analytics ETL jobs, schema cutovers, and index lifecycle management, reducing production database lock time by 80%.",
+      "Built ETL pipelines supporting financial reporting and transaction auditing across 13+ branches using Snowflake, PostgreSQL, Flask, and Google Cloud Run, integrating QuickBooks, Esso, and WorkWave APIs.",
+      "Optimized database systems processing 100M+ records and reduced lock time by 80% with incremental syncs, cursor tracking, indexing strategy, and concurrency controls.",
+      "Built a routing analytics and planning dashboard with React, Next.js, TypeScript, PostgreSQL, and Google Maps API, enabling capacity planning and branch-level reporting for 120+ users across 16 branches.",
+      "Developed a full-stack employee file system supporting role-based permissions and secure document management for 500+ users.",
     ],
   },
   {
@@ -167,7 +168,7 @@ export const skills = [
   },
   {
     title: "Data and Cloud",
-    items: ["PostgreSQL", "SQLite", "MongoDB", "Docker", "GCP", "Google Cloud Run", "GitHub Actions"],
+    items: ["PostgreSQL", "Snowflake", "SQLite", "MongoDB", "Docker", "GCP", "Google Cloud Run", "GitHub Actions"],
   },
   {
     title: "ML and Research",
